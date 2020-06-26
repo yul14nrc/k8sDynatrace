@@ -1,9 +1,8 @@
+---
 apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
   name: rabbitmq
-  labels:
-    name: rabbitmq
   namespace: sockshop-production
 spec:
   replicas: 1
@@ -13,8 +12,8 @@ spec:
         sidecar.istio.io/inject: "false"
         prometheus.io/scrape: "false"
         dynatrace/instrument: "false"
-        pipeline.stage: production
-        pipeline.build: 1.0.2.0114
+        pipeline.stage: prod-stable
+        pipeline.build: 1.0.1.0005
         pipeline.project: sockshop
         support.contact: "jimmy.page@sockshop.com"
         support.channel: "#support-sockshop-middleware"
@@ -26,25 +25,19 @@ spec:
         product: sockshop
     spec:
       containers:
-      - name: rabbitmq
-        image: rabbitmq:3.6.8-management
-        ports:
-        - containerPort: 15672
-          name: management
-        - containerPort: 5672
-          name: rabbitmq
-        resources:
-          limits:
-           cpu: "200m"
-           memory: "256Mi"
-      - name: rabbitmq-exporter
-        image: kbudde/rabbitmq-exporter
-        ports:
-        - containerPort: 9090
-          name: exporter
-        resources:
-          limits:
-           cpu: "200m"
-           memory: "256Mi"
+        - name: rabbitmq
+          image: rabbitmq:3.7-management
+          ports:
+            - containerPort: 15672
+              name: management
+            - containerPort: 5672
+              name: rabbitmq
+          resources:
+        - name: rabbitmq-exporter
+          image: kbudde/rabbitmq-exporter
+          ports:
+            - containerPort: 9090
+              name: exporter
+          resources:
       nodeSelector:
         beta.kubernetes.io/os: linux
