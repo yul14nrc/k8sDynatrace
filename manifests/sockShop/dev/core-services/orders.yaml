@@ -43,9 +43,6 @@ spec:
             successThreshold: 1
             timeoutSeconds: 1
           resources:
-            limits:
-              cpu: "200m"
-              memory: "256Mi"
           readinessProbe:
             httpGet:
               path: /health
