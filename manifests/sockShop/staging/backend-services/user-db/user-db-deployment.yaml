@@ -1,0 +1,58 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  labels:
+    io.kompose.service: user-db
+  name: user-db
+  namespace: sockshop-staging
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      annotations:
+        sidecar.istio.io/inject: "false"
+        dynatrace/instrument: "false"
+        pipeline.stage: sockschopstaging
+        pipeline.build: 2.1.0.3723
+        pipeline.project: sockshop
+        support.contact: "mary.poppins@sockshop.com"
+        support.channel: "#support-sockshop-data"
+      labels:
+        io.kompose.service: user-db
+        name: user-db
+        stage: staging
+        version: "2.1"
+        tier: data
+        product: sockshop
+    spec:
+      containers:
+      - image: mongo
+        name: user-db
+        env:
+        - name: MONGODB_ADMIN_PASSWORD
+          value: "password"
+        - name: MONGODB_USER
+          value: "user"
+        - name: MONGODB_PASSWORD
+          value: "password"
+        - name: MONGODB_DATABASE
+          value: "default"
+        ports:
+        - containerPort: 27017
+        resources: 
+          limits:
+            cpu: "500m"
+            memory: "128Mi"
+          requests:
+            cpu: "50m"
+            memory: "32Mi"
+        volumeMounts:
+        - mountPath: /data/db
+          name: user-db-mongodata
+      restartPolicy: Always
+      volumes:
+      - name: user-db-mongodata
+        persistentVolumeClaim:
+          claimName: user-db-mongodata
