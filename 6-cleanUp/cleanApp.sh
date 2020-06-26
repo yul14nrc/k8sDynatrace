@@ -20,17 +20,19 @@ echo "Removing Cluster Role Bindings on GKE Cluster '"$CLUSTER_NAME"'"
 echo "---------------------------------------------------------------"
 echo ""
 #remove cluster role bindings
+kubectl delete rolebinding default-view -n sockshop-dev
+kubectl delete rolebinding default-view -n sockshop-staging
+kubectl delete rolebinding default-view -n sockshop-production
 kubectl delete clusterrolebinding cluster-admin-binding
-kubectl delete rolebinding default-view -n sockschopdev 
-kubectl delete rolebinding default-view -n sockshopprod 
 echo ""
 echo "---------------------------------------------------------------"
 echo "Deleting namespaces on GKE Cluster '"$CLUSTER_NAME"'"
 echo "---------------------------------------------------------------"
 echo ""
 #remove namespaces and their objects
-kubectl delete namespace sockschop-dev
-kubectl delete ns sockshopprod
-kubectl delete ns dynatrace
-kubectl delete ns cicd
-kubectl delete ns tower
+kubectl delete namespace sockshop-dev
+kubectl delete namespace sockshop-staging
+kubectl delete namespace sockshop-production
+kubectl delete namespace dynatrace
+#kubectl delete ns cicd
+#kubectl delete ns tower
