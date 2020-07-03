@@ -1,0 +1,6 @@
+{
+    "zone": "ZONE",
+    "k8sClusterName": "K8SCLUSTERNAME",
+    "vmName": "VMNAME",
+    "projectID": "PROJECTID"
+}

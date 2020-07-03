@@ -1,7 +1,7 @@
 #!/bin/bash
 
-exec > >(tee -i ./createGKECluster.log)
-exec 2>&1
+#exec > >(tee -i ./createGKECluster.log)
+#exec 2>&1
 
 NUMBER=$(shuf -i 200000-300000 -n 1)
 
@@ -11,10 +11,11 @@ CLUSTER_NAME=k8s-demo-cl
 ZONE=us-central1-a
 REGION=us-central1
 GKE_VERSION="1.15"
+VM_NAME=dtactivegate
 
 echo ""
 echo "---------------------------------------------------------------"
-echo "The GKE Cluster will be created with the following information:"
+echo "The GKE Cluster and VM will be created with the following information:"
 echo "---------------------------------------------------------------"
 echo ""
 echo "Project Name: "$PROJECT_NAME
@@ -23,6 +24,7 @@ echo "Cluster Name: "$CLUSTER_NAME
 echo "Zone: "$ZONE
 echo "Region: "$REGION
 echo "GKE Version: "$GKE_VERSION
+echo "VM Name: "$VM_NAME
 echo ""
 echo "------------------------------"
 echo "Creating environment variables"
@@ -62,3 +64,16 @@ echo "-------------------------------------------------"
 echo ""
 kubectl create clusterrolebinding cluster-admin-binding --clusterrole=cluster-admin --user=$(gcloud config get-value account)
 echo ""
+echo "--------------------------------------"
+echo "Creating VM '"$VM_NAME"'"
+echo "--------------------------------------"
+echo ""
+gcloud compute instances create $VM_NAME --zone=$ZONE --machine-type=n1-standard-2 --metadata=tenant_id=$TENANTID,environment_id=$ENVIRONMENTID,paas_token=$PAAS_TOKEN --metadata-from-file startup-script=../../3-dynatrace/envActiveGate/installEnvActiveGate.sh --image=ubuntu-minimal-2004-focal-v20200702 --image-project=ubuntu-os-cloud --boot-disk-size=10GB --boot-disk-type=pd-standard --boot-disk-device-name=$VM_NAME --reservation-affinity=any
+
+INFO=./servicesInfo.json
+
+rm $INFO 2>/dev/null
+cat ./servicesInfo.sav | sed 's~ZONE~'"$ZONE"'~' |
+    sed 's~K8SCLUSTERNAME~'"$CLUSTER_NAME"'~' |
+    sed 's~VMNAME~'"$VM_NAME"'~' |
+    sed 's~PROJECTID~'"$PROJECT_ID"'~' >>$INFO
