@@ -1,8 +1,14 @@
 #!/bin/bash
 
-export DT_TENANT_ID=$(curl http://metadata.google.internal/computeMetadata/v1/instance/attributes/tenant_id -H "Metadata-Flavor: Google")
-export DT_ENVIRONMENT_ID=$(curl http://metadata.google.internal/computeMetadata/v1/instance/attributes/environment_id -H "Metadata-Flavor: Google")
-export DT_PAAS_TOKEN=$(curl http://metadata.google.internal/computeMetadata/v1/instance/attributes/paas_token -H "Metadata-Flavor: Google")
+export GCP=false
+
+http_response=$(curl -o /dev/null -s -w "%{http_code}\n" http://metadata.google.internal)
+if [ $http_response == 200 ]; then
+    export DT_TENANT_ID=$(curl http://metadata.google.internal/computeMetadata/v1/instance/attributes/tenant_id -H "Metadata-Flavor: Google")
+    export DT_ENVIRONMENT_ID=$(curl http://metadata.google.internal/computeMetadata/v1/instance/attributes/environment_id -H "Metadata-Flavor: Google")
+    export DT_PAAS_TOKEN=$(curl http://metadata.google.internal/computeMetadata/v1/instance/attributes/paas_token -H "Metadata-Flavor: Google")
+    GCP=true
+fi
 
 if [ -z "$DT_ENVIRONMENT_ID" ]; then
     echo "Environment ID Empty, SaaS Deployment"
@@ -36,8 +42,33 @@ sleep 40
 sudo service dynatracegateway start
 
 sleep 20
+
+echo '[collector]' >>/var/lib/dynatrace/gateway/config/custom.properties
+echo 'MSGrouter=false' >>/var/lib/dynatrace/gateway/config/custom.properties
+echo "" >>/var/lib/dynatrace/gateway/config/custom.properties
 echo '[http.client.external]' >>/var/lib/dynatrace/gateway/config/custom.properties
 echo 'hostname-verification=no' >>/var/lib/dynatrace/gateway/config/custom.properties
 echo 'certificate-validation=no' >>/var/lib/dynatrace/gateway/config/custom.properties
+echo "" >>/var/lib/dynatrace/gateway/config/custom.properties
+echo '[cloudfoundry_monitoring]' >>/var/lib/dynatrace/gateway/config/custom.properties
+echo 'cloudfoundry_monitoring_enabled=false' >>/var/lib/dynatrace/gateway/config/custom.properties
+echo "" >>/var/lib/dynatrace/gateway/config/custom.properties
+echo '[vmware_monitoring]' >>/var/lib/dynatrace/gateway/config/custom.properties
+echo 'vmware_monitoring_enabled=false' >>/var/lib/dynatrace/gateway/config/custom.properties
+echo "" >>/var/lib/dynatrace/gateway/config/custom.properties
+echo '[dbAgent]' >>/var/lib/dynatrace/gateway/config/custom.properties
+echo 'dbAgent_enabled=false' >>/var/lib/dynatrace/gateway/config/custom.properties
+echo "" >>/var/lib/dynatrace/gateway/config/custom.properties
+echo '[rpm]' >>/var/lib/dynatrace/gateway/config/custom.properties
+echo 'rpm_enabled=false' >>/var/lib/dynatrace/gateway/config/custom.properties
+
+if [ $GCP == true ]; then
+    echo "" >>/var/lib/dynatrace/gateway/config/custom.properties
+    echo '[aws_monitoring]' >>/var/lib/dynatrace/gateway/config/custom.properties
+    echo 'aws_monitoring_enabled=false' >>/var/lib/dynatrace/gateway/config/custom.properties
+    echo "" >>/var/lib/dynatrace/gateway/config/custom.properties
+    echo '[azure_monitoring]' >>/var/lib/dynatrace/gateway/config/custom.properties
+    echo 'azure_monitoring_enabled=false' >>/var/lib/dynatrace/gateway/config/custom.properties
+fi
 
 sudo service dynatracegateway restart

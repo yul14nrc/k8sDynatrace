@@ -1,5 +1,6 @@
 {
-    "zone": "ZONE",
+    "zonek8sCl": "ZONEK8SCL",
+    "zoneVM": "ZONEVM",
     "k8sClusterName": "K8SCLUSTERNAME",
     "vmName": "VMNAME",
     "projectID": "PROJECTID"

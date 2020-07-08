@@ -30,25 +30,39 @@ else
     cd ..
 fi
 
-export TENANTID=$(cat ./1-credentials/creds.json | jq -r '.dynatraceTenantID')
-export ENVIRONMENTID=$(cat ./1-credentials/creds.json | jq -r '.dynatraceEnvironmentID')
-export API_TOKEN=$(cat ./1-credentials/creds.json | jq -r '.dynatraceApiToken')
-export PAAS_TOKEN=$(cat ./1-credentials/creds.json | jq -r '.dynatracePaaSToken')
+export DT_TENANTID=$(cat ./1-credentials/creds.json | jq -r '.dynatraceTenantID')
+export DT_ENVIRONMENTID=$(cat ./1-credentials/creds.json | jq -r '.dynatraceEnvironmentID')
+export DT_API_TOKEN=$(cat ./1-credentials/creds.json | jq -r '.dynatraceApiToken')
+export DT_PAAS_TOKEN=$(cat ./1-credentials/creds.json | jq -r '.dynatracePaaSToken')
 #export AG=$(cat ../1-credentials/creds.json | jq -r '.dynatracactiveGate')
 
 echo ""
 
 case $CLOUD_PROVIDER in
-    GCP)
+GCP)
     cd ./2-cloudServices/GCP
     ./createServices.sh
     cd ../..
     ;;
-    azure)
+azure)
     deployAKS
     ;;
-    *)
+*)
     echo "No supported Cloud Provider (GCP or AKS) detected."
     exit 1
     ;;
 esac
+
+#install Dynatrace Operator on k8s cluster...
+
+cd ./3-dynatrace/dynatraceOperator/
+./installDynatraceOperator.sh
+cd ../..
+
+#install sockshop app on k8s cluster...
+
+cd ./4-app/sockShop/
+./installSockShopDev.sh
+./installSockShopStaging.sh
+./installSockShopProduction.sh
+cd ../..

@@ -33,9 +33,6 @@ spec:
             limits:
               cpu: 500m
               memory: 2048Mi
-            requests:
-              cpu: 400m
-              memory: 2048Mi
           ports:
             - containerPort: 8080
           volumeMounts:

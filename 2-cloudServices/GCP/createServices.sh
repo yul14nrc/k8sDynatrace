@@ -8,8 +8,8 @@ NUMBER=$(shuf -i 200000-300000 -n 1)
 PROJECT_NAME=project-demo
 PROJECT_ID=${PROJECT_NAME}-${NUMBER}
 CLUSTER_NAME=k8s-demo-cl
-ZONE=us-central1-a
-REGION=us-central1
+ZONEK8SCL=us-central1-a
+ZONEVM=us-east1-b
 GKE_VERSION="1.15"
 VM_NAME=dtactivegate
 
@@ -21,8 +21,8 @@ echo ""
 echo "Project Name: "$PROJECT_NAME
 echo "Project ID: "$PROJECT_ID
 echo "Cluster Name: "$CLUSTER_NAME
-echo "Zone: "$ZONE
-echo "Region: "$REGION
+echo "Zone k8s Cluster: "$ZONEK8SCL
+echo "Zone VM: "$ZONEVM
 echo "GKE Version: "$GKE_VERSION
 echo "VM Name: "$VM_NAME
 echo ""
@@ -56,7 +56,7 @@ echo "--------------------------------------"
 echo "Creating GKE Cluster '"$CLUSTER_NAME"'"
 echo "--------------------------------------"
 echo ""
-gcloud container clusters create $CLUSTER_NAME --zone $ZONE --cluster-version $GKE_VERSION --num-nodes=3 --machine-type=n1-highmem-2 --image-type "UBUNTU" --no-enable-ip-alias --no-enable-autoupgrade
+gcloud container clusters create $CLUSTER_NAME --zone $ZONEK8SCL --cluster-version $GKE_VERSION --num-nodes=2 --machine-type=n1-highmem-4 --image-type "UBUNTU" --no-enable-ip-alias --no-enable-autoupgrade
 echo ""
 echo "-------------------------------------------------"
 echo "Creating GKE ClusterRoleBinding for '"$CLUSTER_NAME"'"
@@ -68,12 +68,13 @@ echo "--------------------------------------"
 echo "Creating VM '"$VM_NAME"'"
 echo "--------------------------------------"
 echo ""
-gcloud compute instances create $VM_NAME --zone=$ZONE --machine-type=n1-standard-2 --metadata=tenant_id=$TENANTID,environment_id=$ENVIRONMENTID,paas_token=$PAAS_TOKEN --metadata-from-file startup-script=../../3-dynatrace/envActiveGate/installEnvActiveGate.sh --image=ubuntu-minimal-2004-focal-v20200702 --image-project=ubuntu-os-cloud --boot-disk-size=10GB --boot-disk-type=pd-standard --boot-disk-device-name=$VM_NAME --reservation-affinity=any
+gcloud compute instances create $VM_NAME --zone=$ZONEVM --machine-type=n1-standard-2 --metadata=tenant_id=$DT_TENANTID,environment_id=$DT_ENVIRONMENTID,paas_token=$DT_PAAS_TOKEN --metadata-from-file startup-script=../../3-dynatrace/envActiveGate/installEnvActiveGate.sh --image=ubuntu-minimal-2004-focal-v20200702 --image-project=ubuntu-os-cloud --boot-disk-size=10GB --boot-disk-type=pd-standard --boot-disk-device-name=$VM_NAME --reservation-affinity=any
 
 INFO=./servicesInfo.json
 
 rm $INFO 2>/dev/null
-cat ./servicesInfo.sav | sed 's~ZONE~'"$ZONE"'~' |
+cat ./servicesInfo.sav | sed 's~ZONEK8SCL~'"$ZONEK8SCL"'~' |
+    sed 's~ZONEVM~'"$ZONEVM"'~' |
     sed 's~K8SCLUSTERNAME~'"$CLUSTER_NAME"'~' |
     sed 's~VMNAME~'"$VM_NAME"'~' |
     sed 's~PROJECTID~'"$PROJECT_ID"'~' >>$INFO

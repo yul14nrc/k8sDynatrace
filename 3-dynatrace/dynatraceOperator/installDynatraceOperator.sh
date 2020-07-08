@@ -1,12 +1,9 @@
 #!/bin/bash
 
-#exec > >(tee -i ./installdynaoperator.log)
-#exec 2>&1
-
-export DT_API_TOKEN=$(cat ../../1-credentials/creds.json | jq -r '.dynatraceApiToken')
-export DT_PAAS_TOKEN=$(cat ../../1-credentials/creds.json | jq -r '.dynatracePaaSToken')
-export DT_TENANTID=$(cat ../../1-credentials/creds.json | jq -r '.dynatraceTenantID')
-export DT_ENVIRONMENTID=$(cat ../../1-credentials/creds.json | jq -r '.dynatraceEnvironmentID')
+#export DT_TENANTID=$(cat ../../1-credentials/creds.json | jq -r '.dynatraceTenantID')
+#export DT_ENVIRONMENTID=$(cat ../../1-credentials/creds.json | jq -r '.dynatraceEnvironmentID')
+#export DT_API_TOKEN=$(cat ../../1-credentials/creds.json | jq -r '.dynatraceApiToken')
+#export DT_PAAS_TOKEN=$(cat ../../1-credentials/creds.json | jq -r '.dynatracePaaSToken')
 
 echo ""
 echo "Verifying dynatrace namespace..."
@@ -16,7 +13,7 @@ ns=`kubectl get namespace dynatrace --no-headers --output=go-template={{.metadat
 if [ -z "${ns}" ]; then
   echo "Namespace dynatrace not found"
   echo ""
-  echo "Creating namespace dynatrace:"
+  echo "Creating namespace dynatrace"
   echo ""
   kubectl create namespace dynatrace
 else
@@ -29,7 +26,7 @@ LATEST_RELEASE=$(curl -s https://api.github.com/repos/dynatrace/dynatrace-oneage
 #LATEST_RELEASE=v0.3.1
 kubectl create -f https://github.com/Dynatrace/dynatrace-oneagent-operator/releases/download/$LATEST_RELEASE/kubernetes.yaml
 
-kubectl -n dynatrace create secret generic oneagent --from-literal="apiToken="$API_TOKEN --from-literal="paasToken="$PAAS_TOKEN
+kubectl -n dynatrace create secret generic oneagent --from-literal="apiToken="$DT_API_TOKEN --from-literal="paasToken="$DT_PAAS_TOKEN
 
 if [[ -f "cr.yaml" ]]; then
     rm -f cr.yaml
@@ -38,14 +35,14 @@ fi
 
 curl -o cr.yaml https://raw.githubusercontent.com/Dynatrace/dynatrace-oneagent-operator/$LATEST_RELEASE/deploy/cr.yaml
 
-case $ENVIRONMENTID in
+case $DT_ENVIRONMENTID in
         '')
         echo "SaaS Deplyoment"
-        sed -i 's/apiUrl: https:\/\/ENVIRONMENTID.live.dynatrace.com\/api/apiUrl: https:\/\/'$TENANTID'.live.dynatrace.com\/api/' cr.yaml
+        sed -i 's/apiUrl: https:\/\/ENVIRONMENTID.live.dynatrace.com\/api/apiUrl: https:\/\/'$DT_TENANTID'.live.dynatrace.com\/api/' cr.yaml
         ;;
         *)
         echo "Managed Deployment"
-        sed -i 's/apiUrl: https:\/\/ENVIRONMENTID.live.dynatrace.com\/api/apiUrl: https:\/\/'$TENANTID'.dynatrace-managed.com\/e\/'$ENVIRONMENTID'\/api/' cr.yaml
+        sed -i 's/apiUrl: https:\/\/ENVIRONMENTID.live.dynatrace.com\/api/apiUrl: https:\/\/'$DT_TENANTID'.dynatrace-managed.com\/e\/'$DT_ENVIRONMENTID'\/api/' cr.yaml
         ;;
         ?)
         usage
