@@ -2,7 +2,7 @@
 apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
-  name: front-end.stable
+  name: front-end
   namespace: sockshop-production
 spec:
   replicas: 1
@@ -17,7 +17,7 @@ spec:
         support.contact: "jane.smith@sockshop.com"
         support.channel: "#support-sockshop-frontend"
       labels:
-        app: front-end.stable
+        app: front-end
         stage: production
         release: stable
         version: "1.4"
@@ -37,7 +37,13 @@ spec:
             periodSeconds: 10
             successThreshold: 1
             timeoutSeconds: 1
-          resources: 
+          resources:
+            limits:
+              cpu: 300m
+              memory: 1000Mi
+            requests:
+              cpu: 100m
+              memory: 300Mi
           readinessProbe:
             httpGet:
               path: /
