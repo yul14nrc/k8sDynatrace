@@ -66,3 +66,9 @@ cd ./4-app/sockShop/
 ./installSockShopStaging.sh
 ./installSockShopProduction.sh
 cd ../..
+
+#connect k8s cluster to dynatrace
+
+cd ./3-dynatrace/connectK8sDynatrace
+./k8sClusterToDynatrace.sh
+cd ../..
