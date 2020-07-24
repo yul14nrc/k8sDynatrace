@@ -68,7 +68,7 @@ echo "--------------------------------------"
 echo "Creating VM '"$VM_NAME"'"
 echo "--------------------------------------"
 echo ""
-gcloud compute instances create $VM_NAME --zone=$ZONEVM --machine-type=n1-standard-2 --metadata=tenant_id=$DT_TENANTID,environment_id=$DT_ENVIRONMENTID,paas_token=$DT_PAAS_TOKEN --metadata-from-file startup-script=../../3-dynatrace/envActiveGate/installEnvActiveGate.sh --image=ubuntu-minimal-2004-focal-v20200702 --image-project=ubuntu-os-cloud --boot-disk-size=10GB --boot-disk-type=pd-standard --boot-disk-device-name=$VM_NAME --reservation-affinity=any
+gcloud compute instances create $VM_NAME --zone=$ZONEVM --machine-type=n1-standard-1 --metadata=tenant_id=$DT_TENANTID,environment_id=$DT_ENVIRONMENTID,paas_token=$DT_PAAS_TOKEN --metadata-from-file startup-script=../../3-dynatrace/envActiveGate/installEnvActiveGate.sh --image=ubuntu-minimal-2004-focal-v20200702 --image-project=ubuntu-os-cloud --boot-disk-size=10GB --boot-disk-type=pd-standard --boot-disk-device-name=$VM_NAME --reservation-affinity=any
 
 INFO=./servicesInfo.json
 

@@ -1,0 +1,7 @@
+{
+    "azresourcegroup": "AZRESOURCEGROUP",
+    "zoneVM": "ZONEVM",
+    "k8sClusterName": "K8SCLUSTERNAME",
+    "vmName": "VMNAME",
+    "projectID": "PROJECTID"
+}
