@@ -1,7 +1,23 @@
 #!/bin/bash
 
-#exec > >(tee -i ./createGKECluster.log)
-#exec 2>&1
+if [ -z "$DT_TENANTID" ]; then
+
+    export CREDS=../../1-credentials/creds.json
+
+    if [ -f "$CREDS" ]; then
+        echo "The $CREDS file exists."
+    else
+        echo "The $CREDS file does not exists. Executing the defineDTcredentials.sh script..."
+        cd ../../1-credentials
+        ./defineDTCredentials.sh
+        cd ../3-dynatrace/connectK8sDynatrace
+    fi
+
+    export DT_TENANTID=$(cat ../../1-credentials/creds.json | jq -r '.dynatraceTenantID')
+    export DT_ENVIRONMENTID=$(cat ../../1-credentials/creds.json | jq -r '.dynatraceEnvironmentID')
+    export DT_API_TOKEN=$(cat ../../1-credentials/creds.json | jq -r '.dynatraceApiToken')
+    export DT_PAAS_TOKEN=$(cat ../../1-credentials/creds.json | jq -r '.dynatracePaaSToken')
+fi
 
 NUMBER=$(shuf -i 200000-300000 -n 1)
 
@@ -25,12 +41,6 @@ echo "Zone k8s Cluster: "$ZONEK8SCL
 echo "Zone VM: "$ZONEVM
 echo "GKE Version: "$GKE_VERSION
 echo "VM Name: "$VM_NAME
-echo ""
-echo "------------------------------"
-echo "Creating environment variables"
-echo "------------------------------"
-echo ""
-echo "export CLUSTER_NAME=$CLUSTER_NAME"
 echo ""
 echo "-----------------------------------------"
 echo "Creating project '"$PROJECT_NAME"' on GCP"
