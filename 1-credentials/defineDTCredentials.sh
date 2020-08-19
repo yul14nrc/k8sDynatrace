@@ -1,7 +1,7 @@
 #!/bin/bash
 
 CREDS=./creds.json
-rm $CREDS 2> /dev/null
+rm $CREDS 2>/dev/null
 
 echo ""
 echo -e "${YLW}Please enter the credentials as requested below: ${NC}"
@@ -23,13 +23,12 @@ echo ""
 read -p "Is this all correct? (y/n) : " -n 1 -r
 echo ""
 
-if [[ $REPLY =~ ^[Yy]$ ]]
-then
-    rm $CREDS 2> /dev/null
-    cat ./creds.sav | sed 's~DYNATRACE_TENANT_ID~'"$DTTEN"'~' | \
-      sed 's~DYNATRACE_ENVIRONMENT_ID~'"$DTENV"'~' | \
-      sed 's~DYNATRACE_API_TOKEN~'"$DTAPI"'~' | \
-      sed 's~DYNATRACE_PAAS_TOKEN~'"$DTPAAS"'~' >> $CREDS
+if [[ $REPLY =~ ^[Yy]$ ]]; then
+    rm $CREDS 2>/dev/null
+    cat ./creds.sav | sed 's~DYNATRACE_TENANT_ID~'"$DTTEN"'~' |
+        sed 's~DYNATRACE_ENVIRONMENT_ID~'"$DTENV"'~' |
+        sed 's~DYNATRACE_API_TOKEN~'"$DTAPI"'~' |
+        sed 's~DYNATRACE_PAAS_TOKEN~'"$DTPAAS"'~' >>$CREDS
 else
     exit 1
 fi
