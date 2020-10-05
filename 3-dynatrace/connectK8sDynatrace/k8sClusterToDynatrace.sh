@@ -73,7 +73,8 @@ echo "DYNATRACE_API_URL          = $DYNATRACE_API_URL"
 echo "DYNATRACE_API_TOKEN        = $DYNATRACE_API_TOKEN"
 echo "================================================================="
 echo ""
-POST_DATA=$(cat <<EOF
+POST_DATA=$(
+    cat <<EOF
     {
         "label": "sockshop-k8s-cl",
         "endpointUrl": "$API_ENDPOINT_URL",
@@ -96,4 +97,23 @@ echo $POST_DATA
 echo ""
 echo "Result: "
 echo ""
-curl -X POST "$DYNATRACE_API_URL" -H "Content-type: application/json" -H "Authorization: Api-Token "$DYNATRACE_API_TOKEN -d "$POST_DATA"
+CONNECT_K8S_DYNATRACE=$(curl -X POST "$DYNATRACE_API_URL" -H "Content-type: application/json" -H "Authorization: Api-Token "$DYNATRACE_API_TOKEN -d "$POST_DATA")
+
+echo $CONNECT_K8S_DYNATRACE
+
+DYNATRACE_K8S_ID=$(echo $CONNECT_K8S_DYNATRACE | jq -r '.id')
+DYNATRACE_K8S_NAME=$(echo $CONNECT_K8S_DYNATRACE | jq -r '.name')
+
+INFO=$(
+    cat <<EOF
+    {
+        "dynatrace_k8s_id": "$DYNATRACE_K8S_ID",
+        "dynatrace_k8s_name": "$DYNATRACE_K8S_NAME"
+    }
+EOF
+)
+
+FILE=./dynatracek8sinfo.json
+rm $FILE 2>/dev/null
+
+echo $INFO | jq -r '.' >>$FILE
