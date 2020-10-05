@@ -66,7 +66,7 @@ API_ENDPOINT_URL=$(kubectl config view --minify -o jsonpath='{.clusters[0].clust
 BEARER_TOKEN=$(kubectl get secret $(kubectl get sa dynatrace-monitoring -o jsonpath='{.secrets[0].name}' -n dynatrace) -o jsonpath='{.data.token}' -n dynatrace | base64 --decode)
 
 echo "================================================================="
-echo "Dynatrace Kubernetes configuratioin:"
+echo "Dynatrace Kubernetes configuration:"
 echo ""
 echo "DYNATRACE_BASE_URL         = $DYNATRACE_BASE_URL"
 echo "DYNATRACE_API_URL          = $DYNATRACE_API_URL"

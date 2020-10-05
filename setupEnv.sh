@@ -7,17 +7,24 @@ if [ "$#" -ne 1 ]; then
     exit 1
 fi
 
-if [ "$1" == "GCP" ]; then
+case "$1" in
+"GCP")
     echo ""
     echo "Google Cloud"
     echo ""
     export CLOUD_PROVIDER=GCP
-else
+    ;;
+"azure")
     echo ""
-    echo "No supported Cloud Provider (GCP or azure or AWS) detected."
+    echo "Azure"
     echo ""
+    export CLOUD_PROVIDER=azure
+    ;;
+*)
+    echo "No supported Cloud Provider (GCP or azure) detected."
     exit 1
-fi
+    ;;
+esac
 
 export CREDS=./1-credentials/creds.json
 
