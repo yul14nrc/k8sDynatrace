@@ -1,9 +1,12 @@
-apiVersion: extensions/v1beta1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: carts-db
   namespace: sockshop-dev
 spec:
+  selector:
+    matchLabels:
+      product: sockshop
   replicas: 1
   strategy:
     type: Recreate
