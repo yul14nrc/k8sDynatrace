@@ -89,7 +89,9 @@ POST_DATA=$(
         "active": true,
         "eventsIntegrationEnabled": true,
         "workloadIntegrationEnabled": true,
-        "certificateCheckEnabled": true
+        "certificateCheckEnabled": false,
+        "hostnameVerificationEnabled": true,
+        "davisEventsIntegrationEnabled": true
     }
 EOF
 )
