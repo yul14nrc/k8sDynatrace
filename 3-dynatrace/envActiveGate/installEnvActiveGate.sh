@@ -42,7 +42,7 @@ if [[ -f "Dynatrace-ActiveGate-Linux.sh" ]]; then
     echo "ActiveGate File is downloaded"
     echo "AG Install Starting..."
     if [ $GCP == true ]; then
-        sudo nohup /bin/sh /Dynatrace-ActiveGate-Linux.sh --set-group-name=gcp --set-network-zone=gcp.$VM_ZONE &
+        sudo nohup /bin/sh ./Dynatrace-ActiveGate-Linux.sh --set-group-name=gcp --set-network-zone=gcp.$VM_ZONE &
         echo "AG Install Complete"
     fi
     if [ $azure == true ]; then
