@@ -26,7 +26,7 @@ PROJECT_ID=${PROJECT_NAME}-${NUMBER}
 CLUSTER_NAME=k8s-demo-cl
 ZONEK8SCL=us-central1-a
 ZONEVM=us-east1-b
-GKE_VERSION="1.15"
+GKE_VERSION="1.18"
 VM_NAME=dtactivegate
 
 echo ""
