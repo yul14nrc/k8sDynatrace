@@ -81,8 +81,13 @@ POST_DATA=$(
         "authToken": "$BEARER_TOKEN",
         "eventsFieldSelectors": [
             {
-                "label": "Node events",
-                "fieldSelector": "involvedObject.kind=Node",
+                "label": "Node warning events",
+                "fieldSelector": "involvedObject.kind=Node,type=Warning",
+                "active": true
+            },
+            {
+                "label": "Sockshop prod warning events",
+                "fieldSelector": "involvedObject.namespace=sockshop-production,type=Warning",
                 "active": true
             }
         ],

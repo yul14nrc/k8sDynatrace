@@ -13,9 +13,8 @@ spec:
     metadata:
       annotations:
         sidecar.istio.io/inject: "false"
-        dynatrace/instrument: "true"
-        pipeline.stage: prod-stable
-        pipeline.build: 1.4.0.7424
+        pipeline.stage: production
+        pipeline.build: 1.5.0.3486
         pipeline.project: sockshop
         support.contact: "jane.smith@sockshop.com"
         support.channel: "#support-sockshop-frontend"
@@ -23,13 +22,20 @@ spec:
         app: front-end
         stage: production
         release: stable
-        version: "1.4"
+        version: "1.5"
         tier: "frontend"
         product: "sockshop"
     spec:
       containers:
         - name: front-end
           image: dynatracesockshop/front-end:0.5.0
+          resources:
+            limits:
+              cpu: 300m
+              memory: 1000Mi
+            requests:
+              cpu: 100m
+              memory: 300Mi
           ports:
             - containerPort: 8080
           livenessProbe:
@@ -40,13 +46,6 @@ spec:
             periodSeconds: 10
             successThreshold: 1
             timeoutSeconds: 1
-          resources:
-            limits:
-              cpu: 300m
-              memory: 1000Mi
-            requests:
-              cpu: 100m
-              memory: 300Mi
           readinessProbe:
             httpGet:
               path: /
@@ -62,7 +61,7 @@ kind: Service
 metadata:
   name: front-end
   labels:
-    app: front-end.stable
+    app: front-end
   namespace: sockshop-production
 spec:
   ports:
@@ -70,5 +69,5 @@ spec:
       port: 8080
       targetPort: 8080
   selector:
-    app: front-end.stable
+    app: front-end
   type: LoadBalancer
