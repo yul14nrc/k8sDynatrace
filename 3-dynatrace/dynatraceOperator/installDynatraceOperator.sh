@@ -36,26 +36,13 @@ else
   echo "Using namespace dynatrace"
 fi
 
-LATEST_RELEASE=$(curl -s https://api.github.com/repos/dynatrace/dynatrace-oneagent-operator/releases/latest | grep tag_name | cut -d '"' -f 4)
-#LATEST_RELEASE=v0.3.1
+kubectl apply -f https://github.com/Dynatrace/dynatrace-operator/releases/latest/download/kubernetes.yaml
 
-if [[ -f "kubernetes.yaml" ]]; then
-  rm -f kubernetes.yaml
-  echo "Removed kubernetes.yaml"
-fi
+#kubectl -n dynatrace logs -f deployment/dynatrace-operator
 
-curl -o kubernetes.yaml https://github.com/Dynatrace/dynatrace-oneagent-operator/releases/download/$LATEST_RELEASE/kubernetes.yaml
+kubectl -n dynatrace create secret generic dynakube --from-literal="apiToken="$DT_API_TOKEN --from-literal="paasToken="$DT_PAAS_TOKEN
 
-kubectl create -f https://github.com/Dynatrace/dynatrace-oneagent-operator/releases/download/$LATEST_RELEASE/kubernetes.yaml
-
-kubectl -n dynatrace create secret generic oneagent --from-literal="apiToken="$DT_API_TOKEN --from-literal="paasToken="$DT_PAAS_TOKEN
-
-if [[ -f "cr.yaml" ]]; then
-  rm -f cr.yaml
-  echo "Removed cr.yaml"
-fi
-
-curl -o cr.yaml https://raw.githubusercontent.com/Dynatrace/dynatrace-oneagent-operator/$LATEST_RELEASE/deploy/cr.yaml
+#curl -o cr.yaml https://raw.githubusercontent.com/Dynatrace/dynatrace-operator/master/config/samples/cr.yaml
 
 case $DT_ENVIRONMENTID in
 '')
@@ -71,4 +58,4 @@ case $DT_ENVIRONMENTID in
   ;;
 esac
 
-kubectl create -f cr.yaml
+kubectl apply -f cr.yaml
