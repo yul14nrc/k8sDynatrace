@@ -8,7 +8,8 @@ if [ $http_response == 200 ]; then
     export DT_TENANT_ID=$(curl http://metadata.google.internal/computeMetadata/v1/instance/attributes/tenant_id -H "Metadata-Flavor: Google")
     export DT_ENVIRONMENT_ID=$(curl http://metadata.google.internal/computeMetadata/v1/instance/attributes/environment_id -H "Metadata-Flavor: Google")
     export DT_PAAS_TOKEN=$(curl http://metadata.google.internal/computeMetadata/v1/instance/attributes/paas_token -H "Metadata-Flavor: Google")
-    export VM_REGION=$(curl http://metadata.google.internal/computeMetadata/v1/instance/region -H "Metadata-Flavor: Google")
+    export VM_FULL_ZONE=$(curl http://metadata.google.internal/computeMetadata/v1/instance/zone -H "Metadata-Flavor: Google")
+    VM_ZONE=$(echo $VM_FULL_ZONE | cut -d'/' -f 4)
     GCP=true
 fi
 
@@ -41,7 +42,7 @@ if [[ -f "Dynatrace-ActiveGate-Linux.sh" ]]; then
     echo "ActiveGate File is downloaded"
     echo "AG Install Starting..."
     if [ $GCP == true ]; then
-        sudo nohup /bin/sh /Dynatrace-ActiveGate-Linux.sh --set-group-name=gcp --set-network-zone=$VM_REGION &
+        sudo nohup /bin/sh /Dynatrace-ActiveGate-Linux.sh --set-group-name=gcp --set-network-zone=gcp.$VM_ZONE &
         echo "AG Install Complete"
     fi
     if [ $azure == true ]; then
