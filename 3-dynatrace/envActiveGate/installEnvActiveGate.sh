@@ -8,6 +8,7 @@ if [ $http_response == 200 ]; then
     export DT_TENANT_ID=$(curl http://metadata.google.internal/computeMetadata/v1/instance/attributes/tenant_id -H "Metadata-Flavor: Google")
     export DT_ENVIRONMENT_ID=$(curl http://metadata.google.internal/computeMetadata/v1/instance/attributes/environment_id -H "Metadata-Flavor: Google")
     export DT_PAAS_TOKEN=$(curl http://metadata.google.internal/computeMetadata/v1/instance/attributes/paas_token -H "Metadata-Flavor: Google")
+    export VM_REGION=$(curl http://metadata.google.internal/computeMetadata/v1/instance/region -H "Metadata-Flavor: Google")
     GCP=true
 fi
 
@@ -40,12 +41,12 @@ if [[ -f "Dynatrace-ActiveGate-Linux.sh" ]]; then
     echo "ActiveGate File is downloaded"
     echo "AG Install Starting..."
     if [ $GCP == true ]; then
-        sudo nohup /bin/sh /Dynatrace-ActiveGate-Linux.sh &
+        sudo nohup /bin/sh /Dynatrace-ActiveGate-Linux.sh --set-group-name=gcp --set-network-zone=$VM_REGION &
         echo "AG Install Complete"
     fi
     if [ $azure == true ]; then
         chmod +x ./Dynatrace-ActiveGate-Linux.sh
-        sudo /bin/sh ./Dynatrace-ActiveGate-Linux.sh
+        sudo /bin/sh ./Dynatrace-ActiveGate-Linux.sh --set-group-name=azure
         echo "AG Install Complete"
     fi
 else
@@ -61,7 +62,7 @@ sudo service dynatracegateway start
 sleep 20
 
 echo '[collector]' >>/var/lib/dynatrace/gateway/config/custom.properties
-echo 'MSGrouter=false' >>/var/lib/dynatrace/gateway/config/custom.properties
+echo 'MSGrouter=true' >>/var/lib/dynatrace/gateway/config/custom.properties
 echo "" >>/var/lib/dynatrace/gateway/config/custom.properties
 echo '[http.client.external]' >>/var/lib/dynatrace/gateway/config/custom.properties
 echo 'hostname-verification=no' >>/var/lib/dynatrace/gateway/config/custom.properties
@@ -82,7 +83,7 @@ echo 'rpm_enabled=false' >>/var/lib/dynatrace/gateway/config/custom.properties
 if [ $GCP == true ]; then
     echo "" >>/var/lib/dynatrace/gateway/config/custom.properties
     echo '[aws_monitoring]' >>/var/lib/dynatrace/gateway/config/custom.properties
-    echo 'aws_monitoring_enabled=false' >>/var/lib/dynatrace/gateway/config/custom.properties
+    echo 'aws_monitoring_enabled=true' >>/var/lib/dynatrace/gateway/config/custom.properties
     echo "" >>/var/lib/dynatrace/gateway/config/custom.properties
     echo '[azure_monitoring]' >>/var/lib/dynatrace/gateway/config/custom.properties
     echo 'azure_monitoring_enabled=false' >>/var/lib/dynatrace/gateway/config/custom.properties
