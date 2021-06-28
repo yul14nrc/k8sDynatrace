@@ -19,12 +19,13 @@ spec:
         support.contact: "john.doe@sockshop.com"
         support.channel: "#support-sockshop-services"
       labels:
-        app: payment
+        app.kubernetes.io/name: payment
         stage: staging
         release: stable
-        version: "1.1"
+        app.kubernetes.io/version: "0.5.0"
         tier: "business"
         product: "sockshop"
+        app.kubernetes.io/part-of: sockshop
     spec:
       containers:
         - name: payment
@@ -70,4 +71,4 @@ spec:
       port: 80
       targetPort: 8080
   selector:
-    app: payment
+    app.kubernetes.io/name: payment

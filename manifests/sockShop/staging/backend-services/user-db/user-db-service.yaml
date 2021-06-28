@@ -11,6 +11,6 @@ spec:
     port: 27017
     targetPort: 27017
   selector:
-    io.kompose.service: user-db
+    app.kubernetes.io/name: user-db
 status:
   loadBalancer: {}

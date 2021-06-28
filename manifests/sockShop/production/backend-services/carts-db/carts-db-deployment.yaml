@@ -21,12 +21,13 @@ spec:
         support.contact: "mary.poppins@sockshop.com"
         support.channel: "#support-sockshop-data"
       labels:
-        name: carts-db
+        app.kubernetes.io/name: carts-db
         stage: production
         release: stable
-        version: "1.2"
+        app.kubernetes.io/version: "1.2"
         tier: data
         product: sockshop
+        app.kubernetes.io/part-of: sockshop
     spec:
       containers:
         - image: mongo

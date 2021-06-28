@@ -21,11 +21,12 @@ spec:
         support.contact: "mary.poppins@sockshop.com"
         support.channel: "#support-sockshop-data"
       labels:
-        name: catalogue-db
+        app.kubernetes.io/name: catalogue-db
         stage: dev
-        version: "2.0"
+        app.kubernetes.io/version: "2.0"
         tier: data
         product: sockshop
+        app.kubernetes.io/part-of: sockshop
     spec:
       containers:
         - name: catalogue-db

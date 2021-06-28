@@ -20,12 +20,13 @@ spec:
         support.contact: "john.doe@sockshop.com"
         support.channel: "#support-sockshop-services"
       labels:
-        app: shipping
+        app.kubernetes.io/name: shipping
         stage: production
         release: stable
-        version: "1.0"
+        app.kubernetes.io/version: "0.5.0"
         tier: "business"
         product: "sockshop"
+        app.kubernetes.io/part-of: sockshop
     spec:
       containers:
         - name: shipping
@@ -73,4 +74,4 @@ spec:
       port: 80
       targetPort: 8080
   selector:
-    app: shipping
+    app.kubernetes.io/name: shipping

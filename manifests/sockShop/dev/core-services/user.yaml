@@ -19,12 +19,13 @@ spec:
         support.contact: "tony.stark@sockshop.com"
         support.channel: "#support-sockshop-services"
       labels:
-        app: user
+        app.kubernetes.io/name: user
         stage: dev
         release: stable
-        version: "1.5"
+        app.kubernetes.io/version: "0.5.0"
         tier: "business"
         product: "sockshop"
+        app.kubernetes.io/part-of: sockshop
     spec:
       containers:
         - name: user
@@ -70,4 +71,4 @@ spec:
       port: 80
       targetPort: 8080
   selector:
-    app: user
+    app.kubernetes.io/name: user

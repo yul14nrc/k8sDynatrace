@@ -23,12 +23,13 @@ spec:
         support.contact: "mary.poppins@sockshop.com"
         support.channel: "#support-sockshop-data"
       labels:
-        io.kompose.service: user-db
+        app.kubernetes.io/name: user-db
         name: user-db
         stage: production
-        version: "2.0"
+        app.kubernetes.io/version: "2.0"
         tier: data
         product: sockshop
+        app.kubernetes.io/part-of: sockshop
     spec:
       containers:
       - image: mongo

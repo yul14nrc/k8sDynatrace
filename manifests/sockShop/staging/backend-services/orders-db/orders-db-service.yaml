@@ -9,4 +9,4 @@ spec:
       port: 27017
       targetPort: 27017
   selector:
-    name: orders-db
+    app.kubernetes.io/name: orders-db

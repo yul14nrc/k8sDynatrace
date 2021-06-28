@@ -14,17 +14,16 @@ spec:
       annotations:
         sidecar.istio.io/inject: "false"
         pipeline.stage: production
-        pipeline.build: 1.5.0.3486
-        pipeline.project: sockshop
         support.contact: "jane.smith@sockshop.com"
         support.channel: "#support-sockshop-frontend"
       labels:
-        app: front-end
+        app.kubernetes.io/name: front-end
         stage: production
         release: stable
-        version: "1.5"
+        app.kubernetes.io/version: "0.5.0"
         tier: "frontend"
         product: "sockshop"
+        app.kubernetes.io/part-of: sockshop
     spec:
       containers:
         - name: front-end
@@ -69,5 +68,5 @@ spec:
       port: 8080
       targetPort: 8080
   selector:
-    app: front-end
+    app.kubernetes.io/name: front-end
   type: LoadBalancer

@@ -16,4 +16,4 @@ spec:
     targetPort: exporter
     protocol: TCP
   selector:
-    name: rabbitmq
+    app.kubernetes.io/name: rabbitmq

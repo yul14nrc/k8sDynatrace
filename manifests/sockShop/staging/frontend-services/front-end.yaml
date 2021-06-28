@@ -19,12 +19,13 @@ spec:
         support.contact: "jane.smith@sockshop.com"
         support.channel: "#support-sockshop-frontend"
       labels:
-        app: front-end
+        app.kubernetes.io/name: front-end
         stage: staging
         release: stable
-        version: "1.5"
+        app.kubernetes.io/version: "0.5.0"
         tier: "frontend"
         product: "sockshop"
+        app.kubernetes.io/part-of: sockshop
     spec:
       containers:
         - name: front-end
@@ -69,5 +70,5 @@ spec:
       port: 8080
       targetPort: 8080
   selector:
-    app: front-end
+    app.kubernetes.io/part-of: sockshop
   type: LoadBalancer

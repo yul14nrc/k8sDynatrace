@@ -21,11 +21,12 @@ spec:
         support.contact: "jimmy.page@sockshop.com"
         support.channel: "#support-sockshop-middleware"
       labels:
-        name: rabbitmq
+        app.kubernetes.io/name: rabbitmq
         stage: production
-        version: "1.0"
+        app.kubernetes.io/version: "1.0"
         tier: messaging
         product: sockshop
+        app.kubernetes.io/part-of: sockshop
     spec:
       containers:
         - name: rabbitmq
