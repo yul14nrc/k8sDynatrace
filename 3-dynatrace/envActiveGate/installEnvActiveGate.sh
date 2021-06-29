@@ -1,5 +1,7 @@
 #!/bin/bash
 
+exec >/tmp/logfile.txt 2>&1
+
 export GCP=false
 export azure=false
 
