@@ -36,13 +36,14 @@ if [[ -f "Dynatrace-ActiveGate-Linux.sh" ]]; then
 fi
 
 echo "Downloading ActiveGate..."
-sudo curl -o Dynatrace-ActiveGate-Linux.sh -X GET "$DT_TENANT_URL/api/v1/deployment/installer/gateway/unix/latest" -H "accept: application/octet-stream" -H "Authorization: Api-Token $DT_PAAS_TOKEN"
+sudo curl -o Dynatrace-ActiveGate-Linux.sh -X GET "$DT_TENANT_URL/api/v1/deployment/installer/gateway/unix/latest?arch=x86&flavor=default" -H "Authorization: Api-Token $DT_PAAS_TOKEN"
 
 if [[ -f "Dynatrace-ActiveGate-Linux.sh" ]]; then
     echo "ActiveGate File is downloaded"
     echo "AG Install Starting..."
     if [ $GCP == true ]; then
-        sudo nohup /bin/sh /Dynatrace-ActiveGate-Linux.sh &
+        #sudo nohup /bin/sh /Dynatrace-ActiveGate-Linux.sh &
+        sudo /bin/sh ./Dynatrace-ActiveGate-Linux.sh
         echo "AG Install Complete"
     fi
     if [ $azure == true ]; then
@@ -55,12 +56,12 @@ else
     sudo curl -o Dynatrace-ActiveGate-Linux.sh -X GET "$DT_TENANT_URL/api/v1/deployment/installer/gateway/unix/latest" -H "accept: application/octet-stream" -H "Authorization: Api-Token $DT_PAAS_TOKEN"
 fi
 
-echo "Waiting for AG to start"
-sleep 40
+#echo "Waiting for AG to start"
+#sleep 40
 
-sudo service dynatracegateway start
+#sudo service dynatracegateway start
 
-sleep 20
+#sleep 20
 
 echo '[collector]' >>/var/lib/dynatrace/gateway/config/custom.properties
 echo 'MSGrouter=true' >>/var/lib/dynatrace/gateway/config/custom.properties
