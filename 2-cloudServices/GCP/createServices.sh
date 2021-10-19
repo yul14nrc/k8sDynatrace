@@ -26,7 +26,7 @@ PROJECT_ID=${PROJECT_NAME}-${NUMBER}
 CLUSTER_NAME=k8s-demo-cl
 ZONEK8SCL=us-central1-a
 ZONEVM=us-east1-b
-GKE_VERSION="1.18"
+GKE_VERSION="1.19"
 VM_NAME=dtactivegate
 
 echo ""
@@ -72,7 +72,7 @@ echo "-------------------------------------------------"
 echo "Creating GKE ClusterRoleBinding for '"$CLUSTER_NAME"'"
 echo "-------------------------------------------------"
 echo ""
-kubectl create clusterrolebinding cluster-admin-binding --clusterrole=cluster-admin --user=$(gcloud config get-value account)
+kubectl create clusterrolebinding cluster-admin-binding --clusterrole=cluster-admin --user=$(gcloud config get-value account) --kubeconfig ~/.kube/config
 echo ""
 echo "--------------------------------------"
 echo "Creating VM '"$VM_NAME"'"

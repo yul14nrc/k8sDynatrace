@@ -23,24 +23,24 @@ echo ""
 echo "Verifying dynatrace namespace..."
 echo ""
 
-ns=$(kubectl get namespace dynatrace --no-headers --output=go-template={{.metadata.name}} 2>/dev/null)
+ns=$(kubectl get namespace dynatrace --no-headers --output=go-template={{.metadata.name}} --kubeconfig ~/.kube/config 2>/dev/null)
 if [ -z "${ns}" ]; then
   echo "Namespace dynatrace not found"
   echo ""
   echo "Creating namespace dynatrace"
   echo ""
-  kubectl create namespace dynatrace
+  kubectl create namespace dynatrace --kubeconfig ~/.kube/config
 else
   echo "Namespace dynatrace exists"
   echo ""
   echo "Using namespace dynatrace"
 fi
 
-kubectl apply -f https://github.com/Dynatrace/dynatrace-operator/releases/latest/download/kubernetes.yaml
+kubectl apply -f https://github.com/Dynatrace/dynatrace-operator/releases/latest/download/kubernetes.yaml --kubeconfig ~/.kube/config
 
 #kubectl -n dynatrace logs -f deployment/dynatrace-operator
 
-kubectl -n dynatrace create secret generic dynakube --from-literal="apiToken="$DT_API_TOKEN --from-literal="paasToken="$DT_PAAS_TOKEN
+kubectl -n dynatrace create secret generic dynakube --from-literal="apiToken="$DT_API_TOKEN --from-literal="paasToken="$DT_PAAS_TOKEN --kubeconfig ~/.kube/config
 
 #curl -o cr.yaml https://raw.githubusercontent.com/Dynatrace/dynatrace-operator/master/config/samples/cr.yaml
 
@@ -58,4 +58,4 @@ case $DT_ENVIRONMENTID in
   ;;
 esac
 
-kubectl apply -f cr.yaml
+kubectl apply -f cr.yaml --kubeconfig ~/.kube/config

@@ -23,13 +23,13 @@ echo ""
 echo "Verifying dynatrace namespace..."
 echo ""
 
-ns=$(kubectl get namespace dynatrace --no-headers --output=go-template={{.metadata.name}} 2>/dev/null)
+ns=$(kubectl get namespace dynatrace --no-headers --output=go-template={{.metadata.name}} --kubeconfig ~/.kube/config 2>/dev/null)
 if [ -z "${ns}" ]; then
     echo "Namespace dynatrace not found"
     echo ""
     echo "Creating namespace dynatrace:"
     echo ""
-    kubectl create namespace dynatrace
+    kubectl create namespace dynatrace --kubeconfig ~/.kube/config
 else
     echo "Namespace dynatrace exists"
     echo ""
@@ -44,7 +44,7 @@ if [[ -f "kubernetes-monitoring-service-account.yaml" ]]; then
 fi
 curl -o kubernetes-monitoring-service-account.yaml https://www.dynatrace.com/support/help/codefiles/kubernetes/kubernetes-monitoring-service-account.yaml
 echo ""
-kubectl apply -f ./kubernetes-monitoring-service-account.yaml
+kubectl apply -f ./kubernetes-monitoring-service-account.yaml --kubeconfig ~/.kube/config
 echo ""
 
 case $DT_ENVIRONMENTID in
@@ -62,8 +62,8 @@ esac
 DYNATRACE_API_TOKEN="$DT_API_TOKEN"
 DYNATRACE_API_URL="$DYNATRACE_BASE_URL/api/config/v1/kubernetes/credentials"
 
-API_ENDPOINT_URL=$(kubectl config view --minify -o jsonpath='{.clusters[0].cluster.server}')
-BEARER_TOKEN=$(kubectl get secret $(kubectl get sa dynatrace-monitoring -o jsonpath='{.secrets[0].name}' -n dynatrace) -o jsonpath='{.data.token}' -n dynatrace | base64 --decode)
+API_ENDPOINT_URL=$(kubectl config view --minify -o jsonpath='{.clusters[0].cluster.server}' --kubeconfig ~/.kube/config)
+BEARER_TOKEN=$(kubectl get secret $(kubectl get sa dynatrace-monitoring -o jsonpath='{.secrets[0].name}' -n dynatrace --kubeconfig ~/.kube/config) -o jsonpath='{.data.token}' -n dynatrace --kubeconfig ~/.kube/config | base64 --decode)
 
 echo "================================================================="
 echo "Dynatrace Kubernetes configuration:"
