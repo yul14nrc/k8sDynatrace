@@ -1,0 +1,5 @@
+config:
+- sockshop-prod: sockshop-prod.json
+sockshop-prod:
+- name: sockshop-prod
+- mzid: "GlobantDemo/management-zone/sockshop-prod.id"

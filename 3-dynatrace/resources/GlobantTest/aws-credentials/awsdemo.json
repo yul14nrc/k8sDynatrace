@@ -1,0 +1,12 @@
+{
+    "label": "{{.name}}",
+    "partitionType": "AWS_DEFAULT",
+    "authenticationData": {
+        "type": "KEYS",
+        "keyBasedAuthentication": {
+            "accessKey": "{{.awsaccesskey}}",
+            "secretKey": "{{.awssecretkey}}"
+        }
+    },
+    "taggedOnly": false
+}

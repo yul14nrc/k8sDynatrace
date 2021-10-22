@@ -1,0 +1,6 @@
+config:
+- sockshopprod: sockshopprod.json
+sockshopprod:
+- name: sockshop prod
+- applicationId: "GlobantDemo/application-web/sockshopprod.id"
+- sockshopprodIp: "{{ .Env.SOCKSHOP_PROD_IP }}"

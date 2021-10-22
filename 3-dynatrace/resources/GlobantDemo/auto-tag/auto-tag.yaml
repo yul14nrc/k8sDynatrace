@@ -1,0 +1,7 @@
+config:
+- application: application.json
+- environment: environment.json
+application:
+- name: application
+environment:
+- name: environment

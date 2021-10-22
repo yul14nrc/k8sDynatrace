@@ -1,0 +1,4 @@
+production.globant:
+    - name: "globant"
+    - env-url: "{{ .Env.DT_TENANT_URL }}"
+    - env-token-name: "DT_API_TOKEN"

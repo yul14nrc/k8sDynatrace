@@ -1,0 +1,30 @@
+config:
+- Config: Config.json
+- Availability: Availability.json
+- Home: Home.json
+- KubernetesOverview-ResourceQuotas: KubernetesOverview-ResourceQuotas.json
+- KubernetesOverview-Containerusagehealth: KubernetesOverview-Containerusagehealth.json
+- KubernetesOverview-UserExperience: KubernetesOverview-UserExperience.json
+- KubernetesOverview-ClusterUtilization: KubernetesOverview-ClusterUtilization.json
+- ServiceOverview: ServiceOverview.json
+- KubernetesOverview-PerformanceEnginnering: KubernetesOverview-PerformanceEnginnering.json
+- Config: Config.json
+Availability:
+- name: ♻ Availability
+Config:
+- name: Config
+- name: Config
+Home:
+- name: Home
+KubernetesOverview-ClusterUtilization:
+- name: "\U0001F578 Kubernetes Overview - Cluster Utilization"
+KubernetesOverview-Containerusagehealth:
+- name: "\U0001F578 Kubernetes Overview - Container usage & health"
+KubernetesOverview-PerformanceEnginnering:
+- name: "\U0001F578 Kubernetes Overview - Performance Enginnering"
+KubernetesOverview-ResourceQuotas:
+- name: "\U0001F578 Kubernetes Overview - Resource Quotas"
+KubernetesOverview-UserExperience:
+- name: "\U0001F578 Kubernetes Overview - User Experience"
+ServiceOverview:
+- name: "\U0001F52C Service Overview"

@@ -1,0 +1,26 @@
+{
+ "label": "{{.name}}",
+ "endpointUrl": "{{.k8sclusterip}}",
+ "authToken": "{{.k8sbearertoken}}",
+ "active": true,
+ "activeGateGroup": null,
+ "certificateCheckEnabled": false,
+ "davisEventsIntegrationEnabled": true,
+ "eventAnalysisAndAlertingEnabled": true,
+ "eventsFieldSelectors": [
+  {
+   "active": true,
+   "fieldSelector": "involvedObject.kind=Node,type=Warning",
+   "label": "Node warning events"
+  },
+  {
+   "active": true,
+   "fieldSelector": "involvedObject.namespace=sockshop-production,type=Warning",
+   "label": "Sockshop prod warning events"
+  }
+ ],
+ "eventsIntegrationEnabled": true,
+ "hostnameVerificationEnabled": true,
+ "prometheusExportersIntegrationEnabled": false,
+ "workloadIntegrationEnabled": true
+}

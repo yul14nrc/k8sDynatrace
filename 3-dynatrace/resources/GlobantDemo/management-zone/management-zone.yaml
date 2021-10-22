@@ -1,0 +1,10 @@
+config:
+- sockshop-prod: sockshop-prod.json
+- sockshop-dev: sockshop-dev.json
+- sockshop-staging: sockshop-staging.json
+sockshop-dev:
+- name: sockshop-dev
+sockshop-prod:
+- name: sockshop-prod
+sockshop-staging:
+- name: sockshop-staging

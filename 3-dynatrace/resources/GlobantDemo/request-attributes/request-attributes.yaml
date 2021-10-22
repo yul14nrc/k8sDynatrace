@@ -1,0 +1,16 @@
+config:
+- LoadTestingVU: LoadTestingVU.json
+- LoadTestingTSN: LoadTestingTSN.json
+- LoadTestingLTN: LoadTestingLTN.json
+- LoadTestingLSN: LoadTestingLSN.json
+- LoadTestingSI: LoadTestingSI.json
+LoadTestingLSN:
+- name: Load Testing LSN
+LoadTestingLTN:
+- name: Load Testing LTN
+LoadTestingSI:
+- name: Load Testing SI
+LoadTestingTSN:
+- name: Load Testing TSN
+LoadTestingVU:
+- name: Load Testing VU
