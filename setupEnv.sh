@@ -76,6 +76,6 @@ cd ../..
 
 #connect k8s cluster to dynatrace
 
-cd ./3-dynatrace/connectK8sDynatrace
-./k8sClusterToDynatrace.sh
-cd ../..
+#cd ./3-dynatrace/connectK8sDynatrace
+#./k8sClusterToDynatrace.sh
+#cd ../..
