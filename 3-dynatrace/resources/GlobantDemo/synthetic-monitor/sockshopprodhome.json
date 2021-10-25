@@ -1,7 +1,7 @@
 {
  "name": "{{.name}}",
  "type": "HTTP",
- "automaticallyAssignedApps": ["{{.applicationId}}"],
+ "manuallyAssignedApps": ["{{.applicationId}}"],
  "frequencyMin": 5,
  "locations": [
   "GEOLOCATION-4DBE735F24F26BD5"
