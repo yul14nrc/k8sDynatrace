@@ -1,0 +1,4 @@
+production.demo:
+    - name: "demo"
+    - env-url: "https://hsm86927.live.dynatrace.com"
+    - env-token-name: "DT_API_TOKEN"

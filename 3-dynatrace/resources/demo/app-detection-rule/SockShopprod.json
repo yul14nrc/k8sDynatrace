@@ -1,0 +1,14 @@
+{
+ "applicationIdentifier": "APPLICATION-3BDA169FDF8547BF",
+ "filterConfig": {
+  "applicationMatchTarget": "DOMAIN",
+  "applicationMatchType": "MATCHES",
+  "pattern": "35.226.204.215"
+ },
+ "metadata": {
+  "clusterVersion": "1.240.130.20220426-122354",
+  "configurationVersions": [
+   0
+  ]
+ }
+}

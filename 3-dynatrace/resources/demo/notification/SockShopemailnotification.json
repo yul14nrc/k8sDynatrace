@@ -1,0 +1,13 @@
+{
+ "active": true,
+ "alertingProfile": "1ae7325c-ce14-3813-a555-706870becc0c",
+ "bccReceivers": [],
+ "body": "{ProblemDetailsHTML}",
+ "ccReceivers": [],
+ "name": "{{.name}}",
+ "receivers": [
+  "julian.ruiz@dynatrace.com"
+ ],
+ "subject": "{State} Problem {ProblemID}: {ImpactedEntity}",
+ "type": "EMAIL"
+}

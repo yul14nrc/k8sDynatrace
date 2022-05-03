@@ -1,6 +1,0 @@
-config:
-- sockshopprodhome: sockshopprodhome.json
-sockshopprodhome:
-- name: sockshop prod home
-- applicationId: "GlobantDemo/application-web/sockshopprod.id"
-- sockshopprodurl: "{{ .Env.SOCKSHOP_PROD_URL }}"

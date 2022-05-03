@@ -39,11 +39,6 @@ fi
 echo ""
 echo "Creating monitoring service account:"
 echo ""
-if [[ -f "kubernetes-monitoring-service-account.yaml" ]]; then
-    rm -f kubernetes-monitoring-service-account.yaml
-fi
-curl -o kubernetes-monitoring-service-account.yaml https://www.dynatrace.com/support/help/codefiles/kubernetes/kubernetes-monitoring-service-account.yaml
-echo ""
 kubectl apply -f ./kubernetes-monitoring-service-account.yaml --kubeconfig ~/.kube/config
 echo ""
 

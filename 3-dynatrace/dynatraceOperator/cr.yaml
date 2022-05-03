@@ -42,9 +42,9 @@ spec:
   # enableIstio: false
 
   # Configuration for ActiveGate instances.
-  activeGate:
+  # activeGate:
     # Optional: to use a custom ActiveGate Docker image.
-    image: ""
+    # image: ""
 
   oneAgent:
     # Optional: The version of the OneAgent to be used when useImmutableImage is enabled. The latest is used by default.
@@ -224,9 +224,9 @@ spec:
 
   # Enables and configures an ActiveGate instance that allows routing
   # of OneAgent traffic
-  routing:
+  # routing:
     # Enable Kubernetes routing functionality
-    enabled: false
+    # enabled: false
 
     # Amount of replicas of activegate routing pods
     #
@@ -291,9 +291,9 @@ spec:
 
   # Enables and configures an ActiveGate instance that allows monitoring
   # of Kubernetes environments
-  kubernetesMonitoring:
+  # kubernetesMonitoring:
     # Enable Kubernetes monitoring functionality
-    enabled: false
+    # enabled: false
 
     # Amount of replicas of activegate pods
     #

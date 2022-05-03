@@ -1,0 +1,19 @@
+config:
+- KubernetesOverview-ResourceQuotas: KubernetesOverview-ResourceQuotas.json
+- KubernetesOverview-UserExperience: KubernetesOverview-UserExperience.json
+- KubernetesOverview-Containerusagehealth: KubernetesOverview-Containerusagehealth.json
+- KubernetesOverview-ClusterUtilization: KubernetesOverview-ClusterUtilization.json
+- LicensingOverview: LicensingOverview.json
+- KubernetesOverview-PerformanceEnginnering: KubernetesOverview-PerformanceEnginnering.json
+KubernetesOverview-ClusterUtilization:
+- name: "\U0001F578 Kubernetes Overview - Cluster Utilization"
+KubernetesOverview-Containerusagehealth:
+- name: "\U0001F578 Kubernetes Overview - Container usage & health"
+KubernetesOverview-PerformanceEnginnering:
+- name: "\U0001F578 Kubernetes Overview - Performance Enginnering"
+KubernetesOverview-ResourceQuotas:
+- name: "\U0001F578 Kubernetes Overview - Resource Quotas"
+KubernetesOverview-UserExperience:
+- name: "\U0001F578 Kubernetes Overview - User Experience"
+LicensingOverview:
+- name: Licensing Overview
