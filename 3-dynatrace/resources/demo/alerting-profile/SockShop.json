@@ -1,0 +1,55 @@
+{
+ "displayName": "{{.name}}",
+ "eventTypeFilters": [],
+ "managementZoneId": 5110226475618367000,
+ "metadata": {
+  "clusterVersion": "1.240.130.20220426-122354",
+  "configurationVersions": [],
+  "currentConfigurationVersions": [
+   "7.0.5"
+  ]
+ },
+ "mzId": "5110226475618367884",
+ "rules": [
+  {
+   "delayInMinutes": 15,
+   "severityLevel": "RESOURCE_CONTENTION",
+   "tagFilter": {
+    "includeMode": "NONE",
+    "tagFilters": []
+   }
+  },
+  {
+   "delayInMinutes": 15,
+   "severityLevel": "PERFORMANCE",
+   "tagFilter": {
+    "includeMode": "NONE",
+    "tagFilters": []
+   }
+  },
+  {
+   "delayInMinutes": 0,
+   "severityLevel": "MONITORING_UNAVAILABLE",
+   "tagFilter": {
+    "includeMode": "NONE",
+    "tagFilters": []
+   }
+  },
+  {
+   "delayInMinutes": 0,
+   "severityLevel": "ERROR",
+   "tagFilter": {
+    "includeMode": "NONE",
+    "tagFilters": []
+   }
+  },
+  {
+   "delayInMinutes": 0,
+   "severityLevel": "AVAILABILITY",
+   "tagFilter": {
+    "includeMode": "NONE",
+    "tagFilters": []
+   }
+  }
+ ]
+}

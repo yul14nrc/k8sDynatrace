@@ -1,6 +1,0 @@
-config:
-- Sockshopprodnotification: Sockshopprodnotification.json
-Sockshopprodnotification:
-- name: Sockshop prod notification
-- alertingProfile: "GlobantDemo/alerting-profile/sockshop-prod.id"
-- email: julian.ruiz@globant.com

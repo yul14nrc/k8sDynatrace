@@ -1,0 +1,10 @@
+config:
+- SockShopprod: SockShopprod.json
+- SockShopprodAdditem: SockShopprodAdditem.json
+- SockShopprodgetitem: SockShopprodgetitem.json
+SockShopprod:
+- name: SockShop prod
+SockShopprodAdditem:
+- name: SockShop prod Add item
+SockShopprodgetitem:
+- name: SockShop prod get item

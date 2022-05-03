@@ -1,4 +1,0 @@
-config:
-- sockshopprod: sockshopprod.json
-sockshopprod:
-- name: sockshop prod

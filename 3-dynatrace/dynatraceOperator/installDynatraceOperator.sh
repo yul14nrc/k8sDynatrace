@@ -38,9 +38,9 @@ fi
 
 kubectl apply -f https://github.com/Dynatrace/dynatrace-operator/releases/latest/download/kubernetes.yaml --kubeconfig ~/.kube/config
 
-#kubectl -n dynatrace logs -f deployment/dynatrace-operator
+kubectl apply -f https://github.com/Dynatrace/dynatrace-operator/releases/latest/download/kubernetes-csi.yaml
 
-kubectl -n dynatrace create secret generic dynakube --from-literal="apiToken="$DT_API_TOKEN --from-literal="paasToken="$DT_PAAS_TOKEN --kubeconfig ~/.kube/config
+kubectl -n dynatrace create secret generic dynakube --from-literal="apiToken="$DT_API_TOKEN --from-literal="dataIngestToken="$DT_PAAS_TOKEN --kubeconfig ~/.kube/config
 
 #curl -o cr.yaml https://raw.githubusercontent.com/Dynatrace/dynatrace-operator/master/config/samples/cr.yaml
 

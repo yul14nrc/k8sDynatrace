@@ -1,0 +1,4 @@
+config:
+- SockShopemailnotification: SockShopemailnotification.json
+SockShopemailnotification:
+- name: SockShop email notification

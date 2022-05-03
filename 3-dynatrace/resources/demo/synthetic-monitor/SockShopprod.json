@@ -1,0 +1,547 @@
+{
+ "anomalyDetection": {
+  "loadingTimeThresholds": {
+   "enabled": true,
+   "thresholds": []
+  },
+  "outageHandling": {
+   "globalOutage": true,
+   "globalOutagePolicy": {
+    "consecutiveRuns": 1
+   },
+   "localOutage": false,
+   "localOutagePolicy": {
+    "affectedLocations": null,
+    "consecutiveRuns": null
+   },
+   "retryOnError": true
+  }
+ },
+ "automaticallyAssignedApps": [
+  "APPLICATION-3BDA169FDF8547BF"
+ ],
+ "createdFrom": "GUI",
+ "enabled": true,
+ "entityId": "SYNTHETIC_TEST-2982179A6F44FC69",
+ "events": [
+  {
+   "entityId": "SYNTHETIC_TEST_STEP-2C4CC08EE0473366",
+   "name": "Loading of \"http://35.226.204.215:8080\"",
+   "sequenceNumber": 1
+  },
+  {
+   "entityId": "SYNTHETIC_TEST_STEP-FFDE762F6418DDB2",
+   "name": "click on \"Catalogue\"",
+   "sequenceNumber": 2
+  },
+  {
+   "entityId": "SYNTHETIC_TEST_STEP-47E1DC1F9468150D",
+   "name": "click on \"View detail\"",
+   "sequenceNumber": 3
+  },
+  {
+   "entityId": "SYNTHETIC_TEST_STEP-9F867B91040D9020",
+   "name": "click on \"buttonCart\"",
+   "sequenceNumber": 4
+  },
+  {
+   "entityId": "SYNTHETIC_TEST_STEP-C5F5466B6FECCCFC",
+   "name": "click on \"1 item(s) in cart\"",
+   "sequenceNumber": 5
+  },
+  {
+   "entityId": "SYNTHETIC_TEST_STEP-F8044FE8F1EB928C",
+   "name": "click on \"Add\"",
+   "sequenceNumber": 6
+  },
+  {
+   "entityId": "SYNTHETIC_TEST_STEP-D8EEF661E404903E",
+   "name": "click on \"form-number\"",
+   "sequenceNumber": 7
+  },
+  {
+   "entityId": "SYNTHETIC_TEST_STEP-8D255B84C807562F",
+   "name": "keystrokes on \"form-number\"",
+   "sequenceNumber": 8
+  },
+  {
+   "entityId": "SYNTHETIC_TEST_STEP-C02B0F4EFE9881B9",
+   "name": "keystrokes on \"form-street\"",
+   "sequenceNumber": 9
+  },
+  {
+   "entityId": "SYNTHETIC_TEST_STEP-1F0D11C286FB6274",
+   "name": "keystrokes on \"form-city\"",
+   "sequenceNumber": 10
+  },
+  {
+   "entityId": "SYNTHETIC_TEST_STEP-5E967810256361DA",
+   "name": "keystrokes on \"form-post-code\"",
+   "sequenceNumber": 11
+  },
+  {
+   "entityId": "SYNTHETIC_TEST_STEP-6F40C87D113C68EC",
+   "name": "keystrokes on \"form-country\"",
+   "sequenceNumber": 12
+  },
+  {
+   "entityId": "SYNTHETIC_TEST_STEP-277864A2183E3F4B",
+   "name": "click on \"Update\"",
+   "sequenceNumber": 13
+  },
+  {
+   "entityId": "SYNTHETIC_TEST_STEP-8781993463DA994A",
+   "name": "click on \"orderButton\"",
+   "sequenceNumber": 14
+  }
+ ],
+ "frequencyMin": 5,
+ "keyPerformanceMetrics": {
+  "loadActionKpm": "VISUALLY_COMPLETE",
+  "xhrActionKpm": "VISUALLY_COMPLETE"
+ },
+ "locations": [
+  "GEOLOCATION-4DBE735F24F26BD5",
+  "GEOLOCATION-146A961B8F1400EE"
+ ],
+ "managementZones": [
+  {
+   "id": "5110226475618367884",
+   "name": "sockshop-prod"
+  }
+ ],
+ "manuallyAssignedApps": [],
+ "name": "{{.name}}",
+ "script": {
+  "configuration": {
+   "bypassCSP": true,
+   "chromiumStartupFlags": {
+    "disable-web-security": false
+   },
+   "device": {
+    "deviceName": "Desktop",
+    "orientation": "landscape"
+   },
+   "monitorFrames": {
+    "enabled": true
+   }
+  },
+  "events": [
+   {
+    "description": "Loading of \"http://35.226.204.215:8080\"",
+    "type": "navigate",
+    "url": "http://35.226.204.215:8080",
+    "wait": {
+     "waitFor": "page_complete"
+    }
+   },
+   {
+    "button": 0,
+    "description": "click on \"Catalogue\"",
+    "target": {
+     "locators": [
+      {
+       "type": "css",
+       "value": "a:contains(\"Catalogue\"):eq(0)"
+      },
+      {
+       "type": "css",
+       "value": ".dropdown-toggle"
+      },
+      {
+       "type": "css",
+       "value": "#tabCatalogue a"
+      },
+      {
+       "type": "css",
+       "value": "#tabCatalogue a.dropdown-toggle"
+      }
+     ]
+    },
+    "type": "click",
+    "wait": {
+     "waitFor": "page_complete"
+    }
+   },
+   {
+    "button": 0,
+    "description": "click on \"View detail\"",
+    "target": {
+     "locators": [
+      {
+       "type": "css",
+       "value": "a:contains(\"View detail\"):eq(1)"
+      },
+      {
+       "type": "css",
+       "value": ".btn:eq(12)"
+      },
+      {
+       "type": "css",
+       "value": "#products div:nth-child(2) div div:nth-child(3) p:nth-child(3) a"
+      },
+      {
+       "type": "css",
+       "value": "#products div.col-md-4 div.product div.text p.buttons a.btn:eq(2)"
+      }
+     ]
+    },
+    "type": "click",
+    "wait": {
+     "waitFor": "page_complete"
+    }
+   },
+   {
+    "button": 0,
+    "description": "click on \"buttonCart\"",
+    "target": {
+     "locators": [
+      {
+       "type": "css",
+       "value": "#buttonCart"
+      },
+      {
+       "type": "css",
+       "value": "a:contains(\"Add to\n                                    cart\")"
+      },
+      {
+       "type": "css",
+       "value": ".btn:eq(4)"
+      },
+      {
+       "type": "css",
+       "value": "#productMain div:nth-child(2) div p:nth-child(4) a"
+      },
+      {
+       "type": "css",
+       "value": "#buttonCart"
+      }
+     ]
+    },
+    "type": "click",
+    "wait": {
+     "waitFor": "page_complete"
+    }
+   },
+   {
+    "button": 0,
+    "description": "click on \"1 item(s) in cart\"",
+    "target": {
+     "locators": [
+      {
+       "type": "css",
+       "value": "a:contains(\"1 item(s) in cart\")"
+      },
+      {
+       "type": "css",
+       "value": "div:contains(\"in cart\"):eq(4)"
+      },
+      {
+       "type": "css",
+       "value": ".btn:eq(3)"
+      },
+      {
+       "type": "css",
+       "value": "#basket-overview a"
+      },
+      {
+       "type": "css",
+       "value": "#basket-overview a.btn"
+      }
+     ]
+    },
+    "type": "click",
+    "wait": {
+     "waitFor": "page_complete"
+    }
+   },
+   {
+    "button": 0,
+    "description": "click on \"Add\"",
+    "target": {
+     "locators": [
+      {
+       "type": "css",
+       "value": "a:contains(\"Add\"):eq(0)"
+      },
+      {
+       "type": "css",
+       "value": "#add_shipping a"
+      },
+      {
+       "type": "css",
+       "value": "#add_shipping a"
+      }
+     ]
+    },
+    "type": "click"
+   },
+   {
+    "button": 0,
+    "description": "click on \"form-number\"",
+    "target": {
+     "locators": [
+      {
+       "type": "css",
+       "value": "#form-number"
+      },
+      {
+       "type": "css",
+       "value": "input[type=\"text\"][name=\"house-number\"]"
+      },
+      {
+       "type": "css",
+       "value": ".form-control:eq(8)"
+      },
+      {
+       "type": "css",
+       "value": "#form-address div input:nth-child(2)"
+      },
+      {
+       "type": "css",
+       "value": "#form-number"
+      }
+     ]
+    },
+    "type": "click"
+   },
+   {
+    "description": "keystrokes on \"form-number\"",
+    "masked": false,
+    "simulateBlurEvent": true,
+    "target": {
+     "locators": [
+      {
+       "type": "css",
+       "value": "#form-number"
+      },
+      {
+       "type": "css",
+       "value": "input[type=\"text\"][name=\"house-number\"]"
+      },
+      {
+       "type": "css",
+       "value": ".form-control:eq(8)"
+      },
+      {
+       "type": "css",
+       "value": "#form-address div input:nth-child(2)"
+      },
+      {
+       "type": "css",
+       "value": "#form-number"
+      }
+     ]
+    },
+    "textValue": "1",
+    "type": "keystrokes"
+   },
+   {
+    "description": "keystrokes on \"form-street\"",
+    "masked": false,
+    "simulateBlurEvent": true,
+    "target": {
+     "locators": [
+      {
+       "type": "css",
+       "value": "#form-street"
+      },
+      {
+       "type": "css",
+       "value": "input[type=\"text\"][name=\"street\"]"
+      },
+      {
+       "type": "css",
+       "value": ".form-control:eq(9)"
+      },
+      {
+       "type": "css",
+       "value": "#form-address div:nth-child(2) input:nth-child(2)"
+      },
+      {
+       "type": "css",
+       "value": "#form-street"
+      }
+     ]
+    },
+    "textValue": "1",
+    "type": "keystrokes"
+   },
+   {
+    "description": "keystrokes on \"form-city\"",
+    "masked": false,
+    "simulateBlurEvent": true,
+    "target": {
+     "locators": [
+      {
+       "type": "css",
+       "value": "#form-city"
+      },
+      {
+       "type": "css",
+       "value": "input[type=\"text\"][name=\"city\"]"
+      },
+      {
+       "type": "css",
+       "value": ".form-control:eq(10)"
+      },
+      {
+       "type": "css",
+       "value": "#form-address div:nth-child(3) input:nth-child(2)"
+      },
+      {
+       "type": "css",
+       "value": "#form-city"
+      }
+     ]
+    },
+    "textValue": "1",
+    "type": "keystrokes"
+   },
+   {
+    "description": "keystrokes on \"form-post-code\"",
+    "masked": false,
+    "simulateBlurEvent": true,
+    "target": {
+     "locators": [
+      {
+       "type": "css",
+       "value": "#form-post-code"
+      },
+      {
+       "type": "css",
+       "value": "input[type=\"text\"][name=\"post-code\"]"
+      },
+      {
+       "type": "css",
+       "value": ".form-control:eq(11)"
+      },
+      {
+       "type": "css",
+       "value": "#form-address div:nth-child(4) input:nth-child(2)"
+      },
+      {
+       "type": "css",
+       "value": "#form-post-code"
+      }
+     ]
+    },
+    "textValue": "1",
+    "type": "keystrokes"
+   },
+   {
+    "description": "keystrokes on \"form-country\"",
+    "masked": false,
+    "simulateBlurEvent": true,
+    "target": {
+     "locators": [
+      {
+       "type": "css",
+       "value": "#form-country"
+      },
+      {
+       "type": "css",
+       "value": "input[type=\"text\"][name=\"country\"]"
+      },
+      {
+       "type": "css",
+       "value": ".form-control:eq(12)"
+      },
+      {
+       "type": "css",
+       "value": "#form-address div:nth-child(5) input:nth-child(2)"
+      },
+      {
+       "type": "css",
+       "value": "#form-country"
+      }
+     ]
+    },
+    "textValue": "1",
+    "type": "keystrokes"
+   },
+   {
+    "button": 0,
+    "description": "click on \"Update\"",
+    "target": {
+     "locators": [
+      {
+       "type": "css",
+       "value": "button:eq(6)"
+      },
+      {
+       "type": "css",
+       "value": "button:contains(\"Update\"):eq(0)"
+      },
+      {
+       "type": "css",
+       "value": ".btn:eq(7)"
+      },
+      {
+       "type": "css",
+       "value": "#form-address p:nth-child(6) button"
+      },
+      {
+       "type": "css",
+       "value": "#form-address p.text-center button.btn"
+      }
+     ]
+    },
+    "type": "click",
+    "wait": {
+     "waitFor": "page_complete"
+    }
+   },
+   {
+    "button": 0,
+    "description": "click on \"orderButton\"",
+    "target": {
+     "locators": [
+      {
+       "type": "css",
+       "value": "#orderButton"
+      },
+      {
+       "type": "css",
+       "value": "button[type=\"submit\"]"
+      },
+      {
+       "type": "css",
+       "value": "button:contains(\"Proceed to checkout\")"
+      },
+      {
+       "type": "css",
+       "value": ".btn:eq(6)"
+      },
+      {
+       "type": "css",
+       "value": "#basket div form div:nth-child(4) div:nth-child(2) button:nth-child(2)"
+      },
+      {
+       "type": "css",
+       "value": "#orderButton"
+      }
+     ]
+    },
+    "type": "click"
+   }
+  ],
+  "type": "clickpath",
+  "version": "1.0"
+ },
+ "tags": [
+  {
+   "context": "CONTEXTLESS",
+   "key": "application",
+   "source": "RULE_BASED",
+   "value": "sockshop"
+  },
+  {
+   "context": "CONTEXTLESS",
+   "key": "environment",
+   "source": "RULE_BASED",
+   "value": "prod"
+  }
+ ],
+ "type": "BROWSER"
+}

@@ -1,0 +1,91 @@
+{
+ "anomalyDetection": {
+  "loadingTimeThresholds": {
+   "enabled": true,
+   "thresholds": []
+  },
+  "outageHandling": {
+   "globalOutage": true,
+   "globalOutagePolicy": {
+    "consecutiveRuns": 1
+   },
+   "localOutage": false,
+   "localOutagePolicy": {
+    "affectedLocations": null,
+    "consecutiveRuns": null
+   }
+  }
+ },
+ "automaticallyAssignedApps": [],
+ "createdFrom": "GUI",
+ "enabled": true,
+ "entityId": "HTTP_CHECK-1ABE067143B6AA37",
+ "frequencyMin": 5,
+ "locations": [
+  "GEOLOCATION-205F1808D1AD69A1"
+ ],
+ "managementZones": [
+  {
+   "id": "5110226475618367884",
+   "name": "sockshop-prod"
+  }
+ ],
+ "manuallyAssignedApps": [],
+ "name": "{{.name}}",
+ "requests": [
+  {
+   "entityId": "HTTP_CHECK_STEP-24C156BC689298EE",
+   "name": "",
+   "sequenceNumber": 1
+  }
+ ],
+ "script": {
+  "requests": [
+   {
+    "configuration": {
+     "acceptAnyCertificate": true,
+     "followRedirects": true,
+     "requestHeaders": [
+      {
+       "name": "Content-Type",
+       "value": "application/json"
+      },
+      {
+       "name": "x-dynatrace-test",
+       "value": "LSN=HTTP Synthethic;LTN=Traffic generation;TSN=Add Item to cart;"
+      }
+     ]
+    },
+    "description": "",
+    "method": "POST",
+    "requestBody": "\"{\\\"id\\\":\\\"3395a43e-2d88-40de-b95f-e00e1502085b\\\", \\\"itemId\\\":\\\"03fef6ac-1896-4ce8-bd69-b798f85c6e0b\\\", \\\"price\\\":\\\"99.90\\\"}\"",
+    "url": "http://35.223.142.195/carts/1/items",
+    "validation": {
+     "rules": [
+      {
+       "passIfFound": false,
+       "type": "httpStatusesList",
+       "value": "\u003e=400"
+      }
+     ]
+    }
+   }
+  ],
+  "version": "1.0"
+ },
+ "tags": [
+  {
+   "context": "CONTEXTLESS",
+   "key": "application",
+   "source": "RULE_BASED",
+   "value": "sockshop"
+  },
+  {
+   "context": "CONTEXTLESS",
+   "key": "environment",
+   "source": "RULE_BASED",
+   "value": "prod"
+  }
+ ],
+ "type": "HTTP"
+}
