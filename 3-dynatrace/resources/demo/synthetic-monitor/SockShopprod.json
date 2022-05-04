@@ -18,7 +18,7 @@
   }
  },
  "automaticallyAssignedApps": [
-  "APPLICATION-3BDA169FDF8547BF"
+  "{{.ApplicationId}}"
  ],
  "createdFrom": "GUI",
  "enabled": true,
