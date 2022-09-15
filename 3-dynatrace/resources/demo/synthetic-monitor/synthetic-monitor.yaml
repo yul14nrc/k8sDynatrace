@@ -4,6 +4,7 @@ config:
 - SockShopprodgetitem: SockShopprodgetitem.json
 SockShopprod:
 - name: SockShop prod
+- ApplicationId: "demo/application-web/SockShopprod.id"
 SockShopprodAdditem:
 - name: SockShop prod Add item
 SockShopprodgetitem:

@@ -56,7 +56,7 @@
       }
      ]
     },
-    "description": "",
+    "description": "Add item synthetic",
     "method": "POST",
     "requestBody": "\"{\\\"id\\\":\\\"3395a43e-2d88-40de-b95f-e00e1502085b\\\", \\\"itemId\\\":\\\"03fef6ac-1896-4ce8-bd69-b798f85c6e0b\\\", \\\"price\\\":\\\"99.90\\\"}\"",
     "url": "http://35.223.142.195/carts/1/items",
