@@ -1,9 +1,10 @@
 #!/bin/bash
 
-if [ "$#" -ne 1 ]; then
+if [ "$#" -ne 2 ]; then
     echo ""
-    echo "No supported Cloud Provider (GCP or azure or AWS) detected."
+    echo "No supported Cloud Provider (GCP or azure or AWS) detected or AG deployment type."
     echo ""
+    echo "usage: setupEnv.sh <GCP|azure|AWS> <1 for deploy AG in VM|2 for deploy AG inside k8s cluster>"
     exit 1
 fi
 
@@ -26,6 +27,25 @@ case "$1" in
     ;;
 esac
 
+case "$2" in
+"1")
+    echo ""
+    echo "AG will be deployed in a VM."
+    echo ""
+    export AG_TYPE=1
+    ;;
+"2")
+    echo ""
+    echo "AG will be deployed as a POD inside k8s cluster."
+    echo ""
+    export AG_TYPE=2
+    ;;
+*)
+    echo "No supported AG deployment type (1|2) detected."
+    exit 1
+    ;;
+esac
+
 export CREDS=./1-credentials/creds.json
 
 if [ -f "$CREDS" ]; then
@@ -40,7 +60,6 @@ fi
 export DT_TENANTID=$(cat ./1-credentials/creds.json | jq -r '.dynatraceTenantID')
 export DT_ENVIRONMENTID=$(cat ./1-credentials/creds.json | jq -r '.dynatraceEnvironmentID')
 export DT_API_TOKEN=$(cat ./1-credentials/creds.json | jq -r '.dynatraceApiToken')
-export DT_PAAS_TOKEN=$(cat ./1-credentials/creds.json | jq -r '.dynatracePaaSToken')
 #export AG=$(cat ../1-credentials/creds.json | jq -r '.dynatracactiveGate')
 
 echo ""

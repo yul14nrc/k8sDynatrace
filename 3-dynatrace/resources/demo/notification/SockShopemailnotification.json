@@ -1,6 +1,6 @@
 {
  "active": true,
- "alertingProfile": "1ae7325c-ce14-3813-a555-706870becc0c",
+ "alertingProfile": "{{.AlertingProfileId}}",
  "bccReceivers": [],
  "body": "{ProblemDetailsHTML}",
  "ccReceivers": [],

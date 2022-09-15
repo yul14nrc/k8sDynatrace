@@ -7,7 +7,6 @@
   "toleratedFallbackThreshold": 3000,
   "toleratedThreshold": 3000
  },
- "identifier": "APPLICATION-3BDA169FDF8547BF",
  "loadActionApdexSettings": {
   "frustratingFallbackThreshold": 12000,
   "frustratingThreshold": 12000,

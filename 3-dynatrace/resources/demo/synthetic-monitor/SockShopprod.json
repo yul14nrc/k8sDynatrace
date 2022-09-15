@@ -22,75 +22,60 @@
  ],
  "createdFrom": "GUI",
  "enabled": true,
- "entityId": "SYNTHETIC_TEST-2982179A6F44FC69",
  "events": [
   {
-   "entityId": "SYNTHETIC_TEST_STEP-2C4CC08EE0473366",
    "name": "Loading of \"http://35.226.204.215:8080\"",
    "sequenceNumber": 1
   },
   {
-   "entityId": "SYNTHETIC_TEST_STEP-FFDE762F6418DDB2",
    "name": "click on \"Catalogue\"",
    "sequenceNumber": 2
   },
   {
-   "entityId": "SYNTHETIC_TEST_STEP-47E1DC1F9468150D",
    "name": "click on \"View detail\"",
    "sequenceNumber": 3
   },
   {
-   "entityId": "SYNTHETIC_TEST_STEP-9F867B91040D9020",
    "name": "click on \"buttonCart\"",
    "sequenceNumber": 4
   },
   {
-   "entityId": "SYNTHETIC_TEST_STEP-C5F5466B6FECCCFC",
    "name": "click on \"1 item(s) in cart\"",
    "sequenceNumber": 5
   },
   {
-   "entityId": "SYNTHETIC_TEST_STEP-F8044FE8F1EB928C",
    "name": "click on \"Add\"",
    "sequenceNumber": 6
   },
   {
-   "entityId": "SYNTHETIC_TEST_STEP-D8EEF661E404903E",
    "name": "click on \"form-number\"",
    "sequenceNumber": 7
   },
   {
-   "entityId": "SYNTHETIC_TEST_STEP-8D255B84C807562F",
    "name": "keystrokes on \"form-number\"",
    "sequenceNumber": 8
   },
   {
-   "entityId": "SYNTHETIC_TEST_STEP-C02B0F4EFE9881B9",
    "name": "keystrokes on \"form-street\"",
    "sequenceNumber": 9
   },
   {
-   "entityId": "SYNTHETIC_TEST_STEP-1F0D11C286FB6274",
    "name": "keystrokes on \"form-city\"",
    "sequenceNumber": 10
   },
   {
-   "entityId": "SYNTHETIC_TEST_STEP-5E967810256361DA",
    "name": "keystrokes on \"form-post-code\"",
    "sequenceNumber": 11
   },
   {
-   "entityId": "SYNTHETIC_TEST_STEP-6F40C87D113C68EC",
    "name": "keystrokes on \"form-country\"",
    "sequenceNumber": 12
   },
   {
-   "entityId": "SYNTHETIC_TEST_STEP-277864A2183E3F4B",
    "name": "click on \"Update\"",
    "sequenceNumber": 13
   },
   {
-   "entityId": "SYNTHETIC_TEST_STEP-8781993463DA994A",
    "name": "click on \"orderButton\"",
    "sequenceNumber": 14
   }
@@ -103,12 +88,6 @@
  "locations": [
   "GEOLOCATION-4DBE735F24F26BD5",
   "GEOLOCATION-146A961B8F1400EE"
- ],
- "managementZones": [
-  {
-   "id": "5110226475618367884",
-   "name": "sockshop-prod"
-  }
  ],
  "manuallyAssignedApps": [],
  "name": "{{.name}}",

@@ -1,5 +1,5 @@
 {
- "applicationIdentifier": "APPLICATION-3BDA169FDF8547BF",
+ "applicationIdentifier": "{{.ApplicationId}}",
  "filterConfig": {
   "applicationMatchTarget": "DOMAIN",
   "applicationMatchType": "MATCHES",
