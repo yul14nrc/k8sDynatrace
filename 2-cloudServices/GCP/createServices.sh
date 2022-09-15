@@ -16,7 +16,6 @@ if [ -z "$DT_TENANTID" ]; then
     export DT_TENANTID=$(cat ../../1-credentials/creds.json | jq -r '.dynatraceTenantID')
     export DT_ENVIRONMENTID=$(cat ../../1-credentials/creds.json | jq -r '.dynatraceEnvironmentID')
     export DT_API_TOKEN=$(cat ../../1-credentials/creds.json | jq -r '.dynatraceApiToken')
-    export DT_PAAS_TOKEN=$(cat ../../1-credentials/creds.json | jq -r '.dynatracePaaSToken')
 fi
 
 NUMBER=$(shuf -i 200000-300000 -n 1)
@@ -26,7 +25,7 @@ PROJECT_ID=${PROJECT_NAME}-${NUMBER}
 CLUSTER_NAME=k8s-demo-cl
 ZONEK8SCL=us-central1-a
 ZONEVM=us-east1-b
-GKE_VERSION="1.20"
+GKE_VERSION="1.22"
 VM_NAME=dtactivegate
 
 echo ""
@@ -78,7 +77,7 @@ echo "--------------------------------------"
 echo "Creating VM '"$VM_NAME"'"
 echo "--------------------------------------"
 echo ""
-gcloud compute instances create $VM_NAME --zone=$ZONEVM --machine-type=n1-standard-1 --metadata=tenant_id=$DT_TENANTID,environment_id=$DT_ENVIRONMENTID,paas_token=$DT_PAAS_TOKEN --metadata-from-file startup-script=../../3-dynatrace/envActiveGate/installEnvActiveGate.sh --image=ubuntu-minimal-2004-focal-v20200702 --image-project=ubuntu-os-cloud --boot-disk-size=10GB --boot-disk-type=pd-standard --boot-disk-device-name=$VM_NAME --reservation-affinity=any
+gcloud compute instances create $VM_NAME --zone=$ZONEVM --machine-type=n1-standard-1 --metadata=tenant_id=$DT_TENANTID,environment_id=$DT_ENVIRONMENTID,api_token=$DT_API_TOKEN --metadata-from-file startup-script=../../3-dynatrace/envActiveGate/installEnvActiveGate.sh --image=ubuntu-minimal-2004-focal-v20220910 --image-project=ubuntu-os-cloud --boot-disk-size=10GB --boot-disk-type=pd-standard --boot-disk-device-name=$VM_NAME --reservation-affinity=any
 
 INFO=./servicesInfo.json
 
