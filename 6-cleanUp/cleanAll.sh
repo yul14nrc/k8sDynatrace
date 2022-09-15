@@ -28,13 +28,11 @@ case "$1" in
 "GCP")
     echo ""
     echo "Google Cloud"
-    echo ""
     export CLOUD_PROVIDER=GCP
     ;;
 "azure")
     echo ""
     echo "Azure"
-    echo ""
     export CLOUD_PROVIDER=azure
     ;;
 *)

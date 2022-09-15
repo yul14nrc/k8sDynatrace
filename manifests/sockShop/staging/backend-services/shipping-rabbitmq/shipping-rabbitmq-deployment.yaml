@@ -51,4 +51,4 @@ spec:
            cpu: "200m"
            memory: "256Mi"
       nodeSelector:
-        beta.kubernetes.io/os: linux
+        kubernetes.io/os: linux
