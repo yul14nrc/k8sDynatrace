@@ -2,3 +2,5 @@
 *.logs
 creds.json
 servicesInfo.json
+dynatracek8sinfo.json
+**/test.txt

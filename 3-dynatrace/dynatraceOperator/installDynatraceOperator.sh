@@ -16,7 +16,6 @@ if [ -z "$DT_TENANTID" ]; then
     export DT_TENANTID=$(cat ../../1-credentials/creds.json | jq -r '.dynatraceTenantID')
     export DT_ENVIRONMENTID=$(cat ../../1-credentials/creds.json | jq -r '.dynatraceEnvironmentID')
     export DT_API_TOKEN=$(cat ../../1-credentials/creds.json | jq -r '.dynatraceApiToken')
-    export DT_PAAS_TOKEN=$(cat ../../1-credentials/creds.json | jq -r '.dynatracePaaSToken')
 fi
 
 echo ""
@@ -36,17 +35,21 @@ else
   echo "Using namespace dynatrace"
 fi
 
-kubectl apply -f https://github.com/Dynatrace/dynatrace-operator/releases/latest/download/kubernetes.yaml --kubeconfig ~/.kube/config
+DT_OPERATOR_LAST_VERSION="v0.8.2"
 
-kubectl apply -f https://github.com/Dynatrace/dynatrace-operator/releases/latest/download/kubernetes-csi.yaml
+kubectl apply -f https://github.com/Dynatrace/dynatrace-operator/releases/download/$DT_OPERATOR_LAST_VERSION/kubernetes.yaml --kubeconfig ~/.kube/config
 
-kubectl -n dynatrace create secret generic dynakube --from-literal="apiToken="$DT_API_TOKEN --from-literal="dataIngestToken="$DT_PAAS_TOKEN --kubeconfig ~/.kube/config
+#kubectl apply -f https://github.com/Dynatrace/dynatrace-operator/releases/latest/download/kubernetes.yaml --kubeconfig ~/.kube/config
+
+kubectl -n dynatrace wait pod --for=condition=ready --selector=app.kubernetes.io/name=dynatrace-operator,app.kubernetes.io/component=webhook --timeout=300s --kubeconfig ~/.kube/config
+
+kubectl -n dynatrace create secret generic dynakube --from-literal="apiToken="$DT_API_TOKEN --kubeconfig ~/.kube/config
 
 #curl -o cr.yaml https://raw.githubusercontent.com/Dynatrace/dynatrace-operator/master/config/samples/cr.yaml
 
 case $DT_ENVIRONMENTID in
 '')
-  echo "SaaS Deplyoment"
+  echo "SaaS Deployment"
   sed -i 's/apiUrl: https:\/\/ENVIRONMENTID.live.dynatrace.com\/api/apiUrl: https:\/\/'$DT_TENANTID'.live.dynatrace.com\/api/' cr.yaml
   ;;
 *)
