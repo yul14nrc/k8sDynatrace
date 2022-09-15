@@ -19,22 +19,14 @@
  "automaticallyAssignedApps": [],
  "createdFrom": "GUI",
  "enabled": true,
- "entityId": "HTTP_CHECK-F5DFA2795EA044C4",
  "frequencyMin": 5,
  "locations": [
   "GEOLOCATION-2340C2C253B92657"
- ],
- "managementZones": [
-  {
-   "id": "5110226475618367884",
-   "name": "sockshop-prod"
-  }
  ],
  "manuallyAssignedApps": [],
  "name": "{{.name}}",
  "requests": [
   {
-   "entityId": "HTTP_CHECK_STEP-7CD496EF839D8740",
    "name": "35.223.142.195/carts/1/items",
    "sequenceNumber": 1
   }

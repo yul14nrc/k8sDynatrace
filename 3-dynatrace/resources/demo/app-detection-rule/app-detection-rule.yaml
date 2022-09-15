@@ -2,3 +2,4 @@ config:
 - SockShopprod: SockShopprod.json
 SockShopprod:
 - name: SockShop prod
+- ApplicationId: "demo/application-web/SockShopprod.id"

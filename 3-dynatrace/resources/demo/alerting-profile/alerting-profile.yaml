@@ -1,5 +1,5 @@
 config:
 - SockShop: SockShop.json
-Default:
 SockShop:
 - name: SockShop
+- managementZoneId: "demo/management-zone/sockshop-prod.id"

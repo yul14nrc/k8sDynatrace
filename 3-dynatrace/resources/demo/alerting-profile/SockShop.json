@@ -1,7 +1,7 @@
 {
  "displayName": "{{.name}}",
  "eventTypeFilters": [],
- "managementZoneId": 5110226475618367000,
+ "managementZoneId": "{{.managementZoneId}}",
  "metadata": {
   "clusterVersion": "1.240.130.20220426-122354",
   "configurationVersions": [],
