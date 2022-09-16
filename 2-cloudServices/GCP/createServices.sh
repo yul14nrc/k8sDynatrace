@@ -72,12 +72,20 @@ echo "Creating GKE ClusterRoleBinding for '"$CLUSTER_NAME"'"
 echo "-------------------------------------------------"
 echo ""
 kubectl create clusterrolebinding cluster-admin-binding --clusterrole=cluster-admin --user=$(gcloud config get-value account) --kubeconfig ~/.kube/config
-echo ""
-echo "--------------------------------------"
-echo "Creating VM '"$VM_NAME"'"
-echo "--------------------------------------"
-echo ""
-gcloud compute instances create $VM_NAME --zone=$ZONEVM --machine-type=n1-standard-1 --metadata=tenant_id=$DT_TENANTID,environment_id=$DT_ENVIRONMENTID,api_token=$DT_API_TOKEN --metadata-from-file startup-script=../../3-dynatrace/envActiveGate/installEnvActiveGate.sh --image=ubuntu-minimal-2004-focal-v20220910 --image-project=ubuntu-os-cloud --boot-disk-size=10GB --boot-disk-type=pd-standard --boot-disk-device-name=$VM_NAME --reservation-affinity=any
+
+if [[ $AG_TYPE == "1" ]];then
+    echo ""
+    echo "--------------------------------------"
+    echo "Creating VM '"$VM_NAME"'"
+    echo "--------------------------------------"
+    echo ""
+    gcloud compute instances create $VM_NAME --zone=$ZONEVM --machine-type=n1-standard-1 --metadata=tenant_id=$DT_TENANTID,environment_id=$DT_ENVIRONMENTID,api_token=$DT_API_TOKEN --metadata-from-file startup-script=../../3-dynatrace/envActiveGate/installEnvActiveGate.sh --image=ubuntu-minimal-2004-focal-v20220910 --image-project=ubuntu-os-cloud --boot-disk-size=10GB --boot-disk-type=pd-standard --boot-disk-device-name=$VM_NAME --reservation-affinity=any
+    AGTYPE=external
+else
+    VM_NAME=""
+    ZONEVM=""
+    AGTYPE=internal
+fi
 
 INFO=./servicesInfo.json
 
@@ -86,4 +94,5 @@ cat ./servicesInfo.sav | sed 's~ZONEK8SCL~'"$ZONEK8SCL"'~' |
     sed 's~ZONEVM~'"$ZONEVM"'~' |
     sed 's~K8SCLUSTERNAME~'"$CLUSTER_NAME"'~' |
     sed 's~VMNAME~'"$VM_NAME"'~' |
+    sed 's~AGTYPE~'"$AGTYPE"'~' |
     sed 's~PROJECTID~'"$PROJECT_ID"'~' >>$INFO
