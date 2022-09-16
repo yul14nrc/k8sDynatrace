@@ -47,18 +47,40 @@ kubectl -n dynatrace create secret generic dynakube --from-literal="apiToken="$D
 
 #curl -o cr.yaml https://raw.githubusercontent.com/Dynatrace/dynatrace-operator/master/config/samples/cr.yaml
 
-case $DT_ENVIRONMENTID in
-'')
-  echo "SaaS Deployment"
-  sed -i 's/apiUrl: https:\/\/ENVIRONMENTID.live.dynatrace.com\/api/apiUrl: https:\/\/'$DT_TENANTID'.live.dynatrace.com\/api/' cr.yaml
-  ;;
-*)
-  echo "Managed Deployment"
-  sed -i 's/apiUrl: https:\/\/ENVIRONMENTID.live.dynatrace.com\/api/apiUrl: https:\/\/'$DT_TENANTID'.dynatrace-managed.com\/e\/'$DT_ENVIRONMENTID'\/api/' cr.yaml
-  ;;
-?)
-  usage
-  ;;
-esac
+if [[ $AG_TYPE == "1" ]];then
 
-kubectl apply -f cr.yaml --kubeconfig ~/.kube/config
+  case $DT_ENVIRONMENTID in
+  '')
+    echo "SaaS Deployment"
+    sed -i 's/apiUrl: https:\/\/ENVIRONMENTID.live.dynatrace.com\/api/apiUrl: https:\/\/'$DT_TENANTID'.live.dynatrace.com\/api/' cr.yaml
+    ;;
+  *)
+    echo "Managed Deployment"
+    sed -i 's/apiUrl: https:\/\/ENVIRONMENTID.live.dynatrace.com\/api/apiUrl: https:\/\/'$DT_TENANTID'.dynatrace-managed.com\/e\/'$DT_ENVIRONMENTID'\/api/' cr.yaml
+    ;;
+  ?)
+    usage
+    ;;
+  esac
+
+  kubectl apply -f cr.yaml --kubeconfig ~/.kube/config
+
+else
+
+  case $DT_ENVIRONMENTID in
+  '')
+    echo "SaaS Deployment"
+    sed -i 's/apiUrl: https:\/\/ENVIRONMENTID.live.dynatrace.com\/api/apiUrl: https:\/\/'$DT_TENANTID'.live.dynatrace.com\/api/' crAG.yaml
+    ;;
+  *)
+    echo "Managed Deployment"
+    sed -i 's/apiUrl: https:\/\/ENVIRONMENTID.live.dynatrace.com\/api/apiUrl: https:\/\/'$DT_TENANTID'.dynatrace-managed.com\/e\/'$DT_ENVIRONMENTID'\/api/' crAG.yaml
+    ;;
+  ?)
+    usage
+    ;;
+  esac
+
+  kubectl apply -f crAG.yaml --kubeconfig ~/.kube/config
+
+fi

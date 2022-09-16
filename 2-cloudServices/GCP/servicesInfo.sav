@@ -3,5 +3,6 @@
     "zoneVM": "ZONEVM",
     "k8sClusterName": "K8SCLUSTERNAME",
     "vmName": "VMNAME",
+    "agType": "AGTYPE",
     "projectID": "PROJECTID"
 }

@@ -95,6 +95,10 @@ cd ../..
 
 #connect k8s cluster to dynatrace
 
-cd ./3-dynatrace/connectK8sDynatrace
-./k8sClusterToDynatrace.sh
-cd ../..
+if [[ $AG_TYPE == "1" ]];then
+
+    cd ./3-dynatrace/connectK8sDynatrace
+    ./k8sClusterToDynatrace.sh
+    cd ../..
+
+fi
