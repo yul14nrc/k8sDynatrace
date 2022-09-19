@@ -11,8 +11,7 @@ export DT_TENANTID=$(cat ../1-credentials/creds.json | jq -r '.dynatraceTenantID
 export DT_ENVIRONMENTID=$(cat ../1-credentials/creds.json | jq -r '.dynatraceEnvironmentID')
 export DT_API_TOKEN=$(cat ../1-credentials/creds.json | jq -r '.dynatraceApiToken')
 export DT_K8S_ID=$(cat ../3-dynatrace/connectK8sDynatrace/dynatracek8sinfo.json | jq -r '.dynatrace_k8s_id')
-export AGTYPE=$(cat ../2-cloudServices/GCP/servicesInfo.json | jq -r '.agType')
-export CLUSTER_NAME=$(cat ../2-cloudServices/GCP/servicesInfo.json | jq -r '.k8sClusterName')
+#export AGTYPE=$(cat ../2-cloudServices/GCP/servicesInfo.json | jq -r '.agType')
 
 case $DT_ENVIRONMENTID in
 '')
@@ -31,11 +30,13 @@ case "$1" in
     echo ""
     echo "Google Cloud"
     export CLOUD_PROVIDER=GCP
+    export CLUSTER_NAME=$(cat ../2-cloudServices/GCP/servicesInfo.json | jq -r '.k8sClusterName')
     ;;
 "azure")
     echo ""
     echo "Azure"
     export CLOUD_PROVIDER=azure
+    export CLUSTER_NAME=$(cat ../2-cloudServices/azure/servicesInfo.json | jq -r '.k8sClusterName')
     ;;
 *)
     echo "No supported Cloud Provider (GCP or azure) detected."
@@ -49,8 +50,8 @@ if [[ $AGTYPE == "internal" ]]; then
 
     for ((j = 0; j <= $(echo $DT_K8S_LIST | jq -r '. | length') - 1; j++)); do
 
-        CLUSTER_NAME=$(echo $DT_K8S_LIST | jq -r '.['$i'].name')
-        DT_K8S_ID=$(echo $DT_K8S_LIST | jq -r '.['$i'].id')
+        CLUSTER_NAME=$(echo $DT_K8S_LIST | jq -r '.values['$j'].name')
+        DT_K8S_ID=$(echo $DT_K8S_LIST | jq -r '.values['$j'].id')
         
         if [[ $CLUSTER_NAME == "sockshop-k8s-cl" ]]; then
 
