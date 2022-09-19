@@ -43,6 +43,31 @@ case "$1" in
     echo ""
     echo "Azure"
     echo ""
+    CURRENT_SUBSCRIPTION=$(az account list --query "[?isDefault].id" -o tsv)
+    read -p 'Azure Subscription ID('$CURRENT_SUBSCRIPTION'): ' SUBSCRIPTION_ID
+    if [[ $SUBSCRIPTION_ID == "" ]]; then
+        export SUBSCRIPTION_ID=$CURRENT_SUBSCRIPTION
+    else
+        export SUBSCRIPTION_ID=$SUBSCRIPTION_ID
+    fi
+    read -p 'Azure Resource Group(JRK8SDEMORG01): ' RG_NAME
+    if [[ $RG_NAME == "" ]]; then
+        export RG_NAME=JRK8SDEMORG01
+    else
+        export RG_NAME=$RG_NAME
+    fi
+    read -p 'azure k8s region (eastus): ' REGIONK8SCL
+    if [[ $REGIONK8SCL == "" ]]; then
+        export REGIONK8SCL=eastus
+    else
+        export REGIONK8SCL=$REGIONK8SCL
+    fi
+    read -p 'azure VM region (westus2): ' REGIONVM
+    if [[ $REGIONVM == "" ]]; then
+        export REGIONVM=westus2
+    else
+        export REGIONVM=$REGIONVM
+    fi
     export CLOUD_PROVIDER=azure
     ;;
 *)
@@ -95,7 +120,9 @@ GCP)
     cd ../..
     ;;
 azure)
-    deployAKS
+    cd ./2-cloudServices/azure
+    ./createServices.sh
+    cd ../..
     ;;
 *)
     echo "No supported Cloud Provider (GCP or AKS) detected."

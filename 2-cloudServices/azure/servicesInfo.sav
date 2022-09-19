@@ -1,6 +1,8 @@
 {
-    "azresourcegroup": "AZRESOURCEGROUP",
-    "zoneVM": "ZONEVM",
     "k8sClusterName": "K8SCLUSTERNAME",
-    "vmName": "VMNAME"
+    "zonek8sCl": "ZONEK8SCL",
+    "vmName": "VMNAME",
+    "zoneVM": "ZONEVM",
+    "agType": "AGTYPE",
+    "ResourceGroup": "RESOURCEGROUP"
 }
