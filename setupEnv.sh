@@ -1,5 +1,9 @@
 #!/bin/bash
 
+export CLUSTER_NAME=k8s-demo-cl
+export K8S_VERSION="1.22"
+export VM_NAME=dtactivegate
+
 if [ "$#" -ne 2 ]; then
     echo ""
     echo "No supported Cloud Provider (GCP or azure or AWS) detected or AG deployment type."
@@ -13,6 +17,26 @@ case "$1" in
     echo ""
     echo "Google Cloud"
     echo ""
+    NUMBER=$(shuf -i 200000-300000 -n 1)
+    export PROJECT_NAME=project-demo
+    read -p 'GCP Project ID ('${PROJECT_NAME}-${NUMBER}'): ' PROJECT_ID
+    if [[ $PROJECT_ID == "" ]]; then
+        export PROJECT_ID=${PROJECT_NAME}-${NUMBER}
+    else
+        export PROJECT_ID=$PROJECT_ID
+    fi
+    read -p 'GCP k8s zone (us-central1-a): ' ZONEK8SCL
+    if [[ $ZONEK8SCL == "" ]]; then
+        export ZONEK8SCL=us-central1-a
+    else
+        export ZONEK8SCL=$ZONEK8SCL
+    fi
+    read -p 'GCP VM zone (us-east1-b): ' ZONEVM
+    if [[ $ZONEVM == "" ]]; then
+        export ZONEVM=us-east1-b
+    else
+        export ZONEVM=$ZONEVM
+    fi
     export CLOUD_PROVIDER=GCP
     ;;
 "azure")
