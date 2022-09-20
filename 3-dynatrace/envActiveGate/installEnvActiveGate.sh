@@ -4,6 +4,7 @@ exec >/tmp/logfile.txt 2>&1
 
 export GCP=false
 export azure=false
+export AWS=false
 
 http_response=$(curl -o /dev/null -s -w "%{http_code}\n" http://metadata.google.internal)
 if [ $http_response == 200 ]; then
@@ -15,13 +16,18 @@ if [ $http_response == 200 ]; then
     GCP=true
 fi
 
-if [ $GCP == false ]; then
-    http_response=$(curl -H Metadata:true --noproxy "*" "http://169.254.169.254/metadata/instance/compute/azEnvironment?api-version=2018-10-01&format=text")
-    if [[ $http_response =~ "AzurePublicCloud" ]]; then
+if [[ $GCP == false && $AWS == false ]]; then
+    cloud_type=$(uname -a | cut -d' ' -f 3)
+    if [[ $cloud_type =~ "azure" ]]; then
         azure=true
         export DT_TENANT_ID=$1
-        export DT_PAAS_TOKEN=$2
+        export DT_API_TOKEN=$2
     fi
+fi
+
+if [[ $azure == false && $GCP == false ]]; then
+    echo "AWS"
+    AWS=true
 fi
 
 if [ -z "$DT_ENVIRONMENT_ID" ]; then
