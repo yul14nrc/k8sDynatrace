@@ -54,29 +54,30 @@ for ((j = 0; j <= $(echo $AZ_RG_LIST | jq -r '. | length') - 1; j++)); do
     fi
 done
 echo ""
-echo "------------------------------------------"
+echo "--------------------------------------"
 echo "Creating AKS Cluster '"$CLUSTER_NAME"'"
-echo "------------------------------------------"
+echo "--------------------------------------"
 echo ""
 az aks create --resource-group $RG_NAME --name $CLUSTER_NAME --kubernetes-version $K8S_VERSION --location $REGIONK8SCL --enable-addons monitoring --node-count 2 --node-vm-size Standard_B4ms --generate-ssh-keys
 echo ""
-echo "-------------------------------------------------"
+echo "---------------------------------------------"
 echo "Getting AKS credentials for '"$CLUSTER_NAME"'"
-echo "-------------------------------------------------"
+echo "---------------------------------------------"
 echo ""
 az aks get-credentials --resource-group $RG_NAME --name $CLUSTER_NAME
 echo ""
 if [[ $AG_TYPE == "1" ]];then
-    echo "---------------------------------"
+    echo "------------------------------"
     echo "Creating Azure VM '"$VM_NAME"'"
-    echo "---------------------------------"
+    echo "------------------------------"
     echo ""
     az vm create --name $VM_NAME --resource-group $RG_NAME --location $REGIONVM --image UbuntuLTS --os-disk-size-gb 30 --os-disk-name $VM_NAME --size Standard_B2s
-    echo "--------------------------------------"
-    echo "Deploying extension to Azure VM '"$VM_NAME"'"
-    echo "--------------------------------------"
+    echo "-----------------------------------------------------"
+    echo "Running script to install AG on Azure VM '"$VM_NAME"'"
+    echo "-----------------------------------------------------"
     echo ""
-    az vm extension set --resource-group $RG_NAME --vm-name $VM_NAME --name customScript --publisher Microsoft.Azure.Extensions --settings '{"fileUris": ["https://raw.githubusercontent.com/yul14nrc/k8sDynatrace/master/3-dynatrace/envActiveGate/installEnvActiveGate.sh"],"commandToExecute": "./installEnvActiveGate.sh '$DT_TENANTID' '$DT_PAAS_TOKEN'"}'
+    az vm run-command invoke --command-id RunShellScript --name $VM_NAME --resource-group $RG_NAME --script @../../3-dynatrace/envActiveGate/installEnvActiveGate.sh --parameters 'arg1='$DT_TENANTID'' 'arg2='$DT_API_TOKEN''
+    #az vm extension set --resource-group $RG_NAME --vm-name $VM_NAME --name customScript --publisher Microsoft.Azure.Extensions --settings '{"fileUris": ["https://raw.githubusercontent.com/yul14nrc/k8sDynatrace/master/3-dynatrace/envActiveGate/installEnvActiveGate.sh"],"commandToExecute": "./installEnvActiveGate.sh '$DT_TENANTID' '$DT_PAAS_TOKEN'"}'
     AGTYPE=external
 else
     VM_NAME=""
