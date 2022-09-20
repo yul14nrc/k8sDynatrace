@@ -16,61 +16,81 @@ if [ -z "$DT_TENANTID" ]; then
     export DT_TENANTID=$(cat ../../1-credentials/creds.json | jq -r '.dynatraceTenantID')
     export DT_ENVIRONMENTID=$(cat ../../1-credentials/creds.json | jq -r '.dynatraceEnvironmentID')
     export DT_API_TOKEN=$(cat ../../1-credentials/creds.json | jq -r '.dynatraceApiToken')
-    export DT_PAAS_TOKEN=$(cat ../../1-credentials/creds.json | jq -r '.dynatracePaaSToken')
 fi
-
-AZ_RESOURCE_GROUP=ACM_RG
-AKS_CLUSTER_NAME=k8s-demo-cl
-AKS_CLUSTER_VERSION="1.16.10"
-AKS_CLUSTER_LOCATION=eastus
-AZ_VM_NAME=dtactivegate
-AZ_VM_LOCATION=westus2
 
 echo ""
 echo "----------------------------------------------------------------------"
 echo "The AKS Cluster and VM will be created with the following information:"
 echo "----------------------------------------------------------------------"
 echo ""
-echo "Resource Group: "$AZ_RESOURCE_GROUP
-echo "Cluster Name: "$AKS_CLUSTER_NAME
-echo "Location k8s Cluster: "$AKS_CLUSTER_LOCATION
-echo "GKE Version: "$AKS_CLUSTER_VERSION
-echo "VM Name: "$AZ_VM_NAME
-echo "Zone VM: "$AZ_VM_LOCATION
+echo "Resource Group: "$RG_NAME
+echo "Cluster Name: "$CLUSTER_NAME
+echo "k8s Cluster Region: "$REGIONK8SCL
+echo "AKS Version: "$K8S_VERSION
+echo "VM Name: "$VM_NAME
+echo "VM Region: "$REGIONVM
 echo ""
-echo "-----------------------------------------"
-echo "Creating Resource Group '"$AZ_RESOURCE_GROUP"' on Azure"
-echo "-----------------------------------------"
+echo "---------------------------------------------"
+echo "Creating Resource Group '"$RG_NAME"' on Azure"
+echo "---------------------------------------------"
 echo ""
-az group create --name $AZ_RESOURCE_GROUP --location centralus
+AZ_RG_LIST=$(az group list -o json)
+for ((j = 0; j <= $(echo $AZ_RG_LIST | jq -r '. | length') - 1; j++)); do
+    AZ_RG_NAME=$(echo $AZ_RG_LIST | jq -r '.['$j'].name')
+    if [[ $AZ_RG_NAME == $RG_NAME ]]; then
+        echo "Azure Resource Group "$RG_NAME" exists..."
+        echo ""
+        echo "Please specify another azure resource group to continue with the deployment..."
+        exit 1
+    else
+        echo "Azure Resource Group "$RG_NAME" does not exists..."
+        echo ""
+        echo "------------------------------------"
+        echo "Creating Resource Group '"$RG_NAME"'"
+        echo "------------------------------------"
+        echo ""
+        az group create --name $RG_NAME --location $REGIONK8SCL
+        j=$(echo $AZ_RG_LIST | jq -r '. | length')
+    fi
+done
 echo ""
-echo "--------------------------------------"
-echo "Creating AKS Cluster '"$AKS_CLUSTER_NAME"'"
-echo "--------------------------------------"
+echo "------------------------------------------"
+echo "Creating AKS Cluster '"$CLUSTER_NAME"'"
+echo "------------------------------------------"
 echo ""
-az aks create --resource-group $AZ_RESOURCE_GROUP --name $AKS_CLUSTER_NAME --kubernetes-version $AKS_CLUSTER_VERSION --location $AKS_CLUSTER_LOCATION --enable-addons monitoring --node-count 2 --node-vm-size Standard_B4ms --generate-ssh-keys
+az aks create --resource-group $RG_NAME --name $CLUSTER_NAME --kubernetes-version $K8S_VERSION --location $REGIONK8SCL --enable-addons monitoring --node-count 2 --node-vm-size Standard_B4ms --generate-ssh-keys
 echo ""
 echo "-------------------------------------------------"
-echo "Getting AKS credentials for '"$AKS_CLUSTER_NAME"'"
+echo "Getting AKS credentials for '"$CLUSTER_NAME"'"
 echo "-------------------------------------------------"
 echo ""
-az aks get-credentials --resource-group $AZ_RESOURCE_GROUP --name $AKS_CLUSTER_NAME
+az aks get-credentials --resource-group $RG_NAME --name $CLUSTER_NAME
 echo ""
-echo "--------------------------------------"
-echo "Creating Azure VM '"$AZ_VM_NAME"'"
-echo "--------------------------------------"
-echo ""
-az vm create --name $AZ_VM_NAME --resource-group $AZ_RESOURCE_GROUP --location $AZ_VM_LOCATION --image UbuntuLTS --os-disk-size-gb 30 --os-disk-name $AZ_VM_NAME --size Standard_B2s
-echo "--------------------------------------"
-echo "Deploying extension to Azure VM '"$AZ_VM_NAME"'"
-echo "--------------------------------------"
-echo ""
-az vm extension set --resource-group $AZ_RESOURCE_GROUP --vm-name $AZ_VM_NAME --name customScript --publisher Microsoft.Azure.Extensions --settings '{"fileUris": ["https://raw.githubusercontent.com/yul14nrc/k8sDynatrace/master/3-dynatrace/envActiveGate/installEnvActiveGate.sh"],"commandToExecute": "./installEnvActiveGate.sh '$DT_TENANTID' '$DT_PAAS_TOKEN'"}'
+if [[ $AG_TYPE == "1" ]];then
+    echo "---------------------------------"
+    echo "Creating Azure VM '"$VM_NAME"'"
+    echo "---------------------------------"
+    echo ""
+    az vm create --name $VM_NAME --resource-group $RG_NAME --location $REGIONVM --image UbuntuLTS --os-disk-size-gb 30 --os-disk-name $VM_NAME --size Standard_B2s
+    echo "--------------------------------------"
+    echo "Deploying extension to Azure VM '"$VM_NAME"'"
+    echo "--------------------------------------"
+    echo ""
+    az vm extension set --resource-group $RG_NAME --vm-name $VM_NAME --name customScript --publisher Microsoft.Azure.Extensions --settings '{"fileUris": ["https://raw.githubusercontent.com/yul14nrc/k8sDynatrace/master/3-dynatrace/envActiveGate/installEnvActiveGate.sh"],"commandToExecute": "./installEnvActiveGate.sh '$DT_TENANTID' '$DT_PAAS_TOKEN'"}'
+    AGTYPE=external
+else
+    VM_NAME=""
+    REGIONVM=""
+    AGTYPE=internal
+fi
+
 
 INFO=./servicesInfo.json
 
 rm $INFO 2>/dev/null
-cat ./servicesInfo.sav | sed 's~AZRESOURCEGROUP~'"$AZ_RESOURCE_GROUP"'~' |
-    sed 's~ZONEVM~'"$AZ_VM_LOCATION"'~' |
-    sed 's~K8SCLUSTERNAME~'"$AKS_CLUSTER_NAME"'~' |
-    sed 's~VMNAME~'"$AZ_VM_NAME"'~' >>$INFO
+cat ./servicesInfo.sav | sed 's~K8SCLUSTERNAME~'"$CLUSTER_NAME"'~' |
+    sed 's~ZONEK8SCL~'"$REGIONK8SCL"'~' |
+    sed 's~VMNAME~'"$VM_NAME"'~' |
+    sed 's~ZONEVM~'"$REGIONVM"'~' |
+    sed 's~AGTYPE~'"$AGTYPE"'~' |
+    sed 's~RESOURCEGROUP~'"$RG_NAME"'~' >>$INFO
