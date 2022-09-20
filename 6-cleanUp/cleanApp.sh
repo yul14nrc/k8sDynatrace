@@ -15,13 +15,11 @@ fi
 
 echo ""
 echo "------------------------------------------------------------------------------"
-echo "Deleting POD security policies and CRDs on $K8S_TYPE Cluster '"$CLUSTER_NAME"'"
+echo "Deleting CRDs on $K8S_TYPE Cluster '"$CLUSTER_NAME"'"
 echo "------------------------------------------------------------------------------"
 echo ""
-#delete pod security policies and CRDs
-kubectl delete podsecuritypolicy dynatrace-oneagent
-kubectl delete podsecuritypolicy dynatrace-oneagent-operator
-kubectl delete crd oneagents.dynatrace.com
+#delete CRDs
+kubectl delete crd dynakubes.dynatrace.com
 echo ""
 echo "---------------------------------------------------------------------"
 echo "Removing Cluster Role Bindings on $K8S_TYPE Cluster '"$CLUSTER_NAME"'"
