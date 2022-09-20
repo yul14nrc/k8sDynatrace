@@ -7,7 +7,7 @@ metadata:
     feature.dynatrace.com/oneagent-privileged: "true"
     feature.dynatrace.com/activegate-authtoken: "true"
     feature.dynatrace.com/automatic-kubernetes-api-monitoring: "true"
-    feature.dynatrace.com/automatic-kubernetes-api-monitoring-cluster-name: "sockshop-k8s-cl"
+    feature.dynatrace.com/automatic-kubernetes-api-monitoring-cluster-name: "CLUSTER"
 spec:
   # Dynatrace apiUrl including the `/api` path at the end.
   # For SaaS, set `YOUR_ENVIRONMENT_ID` to your environment ID.
@@ -116,7 +116,9 @@ spec:
       # Available options: https://www.dynatrace.com/support/help/shortlink/linux-custom-installation
       # Limitations: https://www.dynatrace.com/support/help/shortlink/oneagent-docker#limitations
       #
-      # args: []
+      args:
+        - --set-host-group=CLUSTER
+        - --set-app-log-content-access=true
 
   # Configuration for ActiveGate instances.
   activeGate:
