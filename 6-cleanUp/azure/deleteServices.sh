@@ -30,5 +30,7 @@ if [[ $RESOURCEGROUP != "" ]]; then
     az group delete --name $RESOURCEGROUP --yes --no-wait
 fi
 
+kubectl config delete-context $K8SCLUSTERNAME
+
 FILE=../../2-cloudServices/azure/servicesInfo.json
 rm $FILE 2>/dev/null

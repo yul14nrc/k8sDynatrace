@@ -35,7 +35,7 @@ echo "-------------------------------------------------"
 echo "Checking if project '"$PROJECT_ID"' on GCP exists"
 echo "-------------------------------------------------"
 echo ""
-GCP_PROJECT_LIST=$(gcloud projects list --format="json")
+GCP_PROJECT_LIST=$(gcloud projects list --format="json" --filter="$PROJECT_ID")
 for ((j = 0; j <= $(echo $GCP_PROJECT_LIST | jq -r '. | length') - 1; j++)); do
     GCP_PROJECT_ID=$(echo $GCP_PROJECT_LIST | jq -r '.['$j'].projectId')
     if [[ $GCP_PROJECT_ID == $PROJECT_ID ]]; then

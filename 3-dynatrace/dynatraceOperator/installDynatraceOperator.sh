@@ -53,10 +53,12 @@ if [[ $AG_TYPE == "1" ]];then
   '')
     echo "SaaS Deployment"
     sed -i 's/apiUrl: https:\/\/ENVIRONMENTID.live.dynatrace.com\/api/apiUrl: https:\/\/'$DT_TENANTID'.live.dynatrace.com\/api/' cr.yaml
+    sed -i 's/CLUSTER/'$CLUSTER_NAME'/' cr.yaml
     ;;
   *)
     echo "Managed Deployment"
     sed -i 's/apiUrl: https:\/\/ENVIRONMENTID.live.dynatrace.com\/api/apiUrl: https:\/\/'$DT_TENANTID'.dynatrace-managed.com\/e\/'$DT_ENVIRONMENTID'\/api/' cr.yaml
+    sed -i 's/CLUSTER/'$CLUSTER_NAME'/' cr.yaml
     ;;
   ?)
     usage
@@ -71,10 +73,12 @@ else
   '')
     echo "SaaS Deployment"
     sed -i 's/apiUrl: https:\/\/ENVIRONMENTID.live.dynatrace.com\/api/apiUrl: https:\/\/'$DT_TENANTID'.live.dynatrace.com\/api/' crAG.yaml
+    sed -i 's/CLUSTER/'$CLUSTER_NAME'/' crAG.yaml
     ;;
   *)
     echo "Managed Deployment"
     sed -i 's/apiUrl: https:\/\/ENVIRONMENTID.live.dynatrace.com\/api/apiUrl: https:\/\/'$DT_TENANTID'.dynatrace-managed.com\/e\/'$DT_ENVIRONMENTID'\/api/' crAG.yaml
+    sed -i 's/CLUSTER/'$CLUSTER_NAME'/' crAG.yaml
     ;;
   ?)
     usage

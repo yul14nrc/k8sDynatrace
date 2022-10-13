@@ -70,7 +70,7 @@ echo ""
 POST_DATA=$(
     cat <<EOF
     {
-        "label": "sockshop-k8s-cl",
+        "label": "$CLUSTER_NAME",
         "endpointUrl": "$API_ENDPOINT_URL",
         "authToken": "$BEARER_TOKEN",
         "eventsFieldSelectors": [
