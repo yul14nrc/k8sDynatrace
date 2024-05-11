@@ -40,20 +40,6 @@ spec:
           volumeMounts:
             - mountPath: /tmp
               name: tmp-volume
-          livenessProbe:
-            httpGet:
-              path: /health
-              port: 8080
-            initialDelaySeconds: 240
-            periodSeconds: 10
-            timeoutSeconds: 15
-          readinessProbe:
-            httpGet:
-              path: /health
-              port: 8080
-            initialDelaySeconds: 240
-            periodSeconds: 10
-            timeoutSeconds: 15
       volumes:
         - name: tmp-volume
           emptyDir:

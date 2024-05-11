@@ -54,18 +54,18 @@ if [[ $DYNATRACEDEPLOY == true ]];then
 
     if [[ $AGTYPE == "internal" ]]; then
 
-        DT_K8S_LIST=$(curl -X GET "$DYNATRACE_BASE_URL/api/config/v1/kubernetes/credentials" -H "accept: application/json; charset=utf-8" -H "Authorization: Api-Token $DT_API_TOKEN")
+        DT_K8S_LIST=$(curl -X GET "$DYNATRACE_BASE_URL/api/v2/settings/objects?schemaIds=builtin%3Acloud.kubernetes&fields=objectId%2Cvalue" -H "accept: application/json; charset=utf-8" -H "Authorization: Api-Token $DT_API_TOKEN")
 
-        for ((j = 0; j <= $(echo $DT_K8S_LIST | jq -r '.values | length') - 1; j++)); do
+        for ((j = 0; j <= $(echo $DT_K8S_LIST | jq -r '.totalCount') - 1; j++)); do
 
-            DT_K8S_NAME=$(echo $DT_K8S_LIST | jq -r '.values['$j'].name')
-            DT_K8S_ID=$(echo $DT_K8S_LIST | jq -r '.values['$j'].id')
+            DT_K8S_NAME=$(echo $DT_K8S_LIST | jq -r '.items['$j'].value.label')
+            DT_K8S_ID=$(echo $DT_K8S_LIST | jq -r '.items['$j'].objectId')
             
             if [[ $CLUSTER_NAME == $DT_K8S_NAME ]]; then
 
                 echo "Deleting Dynatrace k8s integracion for '"$CLUSTER_NAME"'"
 
-                curl -X 'DELETE' "$DYNATRACE_BASE_URL/api/config/v1/kubernetes/credentials/$DT_K8S_ID" -H "accept: */*" -H "Authorization: Api-Token $DT_API_TOKEN"
+                curl -X 'DELETE' "$DYNATRACE_BASE_URL/api/v2/settings/objects/$DT_K8S_ID" -H "accept: */*" -H "Authorization: Api-Token $DT_API_TOKEN"
 
             fi
 
