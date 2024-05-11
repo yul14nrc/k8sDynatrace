@@ -1,0 +1,73 @@
+apiVersion: eksctl.io/v1alpha5
+kind: ClusterConfig
+
+metadata:
+  name: demo-eks-cluster
+  region: us-east-1
+  version: "1.27"
+
+vpc:
+  id: "vpc-056866ef3c275c9bf"
+  subnets:
+    public:
+      pub-us-east-1a:
+        id: "subnet-010b888d1b0f03443"
+      pub-us-east-1b:
+        id: "subnet-089bc2b0d881d4374"
+      pub-us-east-1c:
+        id: "subnet-08954a07016ce006f"
+    private:
+      priv-us-east-1a: 
+        id: "subnet-0c35f4a524134e8ef"
+      priv-us-east-1b: 
+        id: "subnet-0cbf7c2700ebf6fd7"
+      priv-us-east-1c: 
+        id: "subnet-0f965990fe5f3ae2b"
+managedNodeGroups:
+  - name: nodegroup01
+    ami: ami-013895b64fa9cbcba
+    amiFamily: AmazonLinux2
+    overrideBootstrapCommand: |
+      #!/bin/bash
+      /etc/eks/bootstrap.sh demo-eks-cluster
+    instanceType: t2.micro
+    minSize: 1
+    maxSize: 3
+    desiredCapacity: 3
+    volumeSize: 20
+    volumeEncrypted: true
+    volumeType: gp3
+    privateNetworking: true
+    subnets:
+      - priv-us-east-1a
+      - priv-us-east-1b
+      - priv-us-east-1c
+    labels: {role: dev}
+    tags:
+      bootcamp: devops
+      owner: julian.ruiz
+    iam:
+      attachPolicyARNs:
+        - arn:aws:iam::aws:policy/AmazonEKSWorkerNodePolicy
+        - arn:aws:iam::aws:policy/AmazonEKS_CNI_Policy
+        - arn:aws:iam::aws:policy/ElasticLoadBalancingFullAccess
+        - arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryReadOnly
+        - arn:aws:iam::aws:policy/CloudWatchAgentServerPolicy
+      withAddonPolicies:
+        autoScaler: true
+iam:
+  withOIDC: true
+
+addons:
+- name: vpc-cni
+  attachPolicyARNs:
+    - arn:aws:iam::aws:policy/AmazonEKS_CNI_Policy
+  resolveConflicts: overwrite
+- name: coredns
+  version: v1.10.1-eksbuild.1
+  configurationValues: |-
+    replicaCount: 2
+  resolveConflicts: overwrite
+- name: kube-proxy
+  version: v1.27.1-eksbuild.1
+  resolveConflicts: overwrite

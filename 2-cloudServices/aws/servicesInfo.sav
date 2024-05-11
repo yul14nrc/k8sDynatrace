@@ -4,5 +4,5 @@
     "vmName": "VMNAME",
     "zoneVM": "ZONEVM",
     "agType": "AGTYPE",
-    "projectID": "PROJECTID"
+    "ResourceGroup": "RESOURCEGROUP"
 }

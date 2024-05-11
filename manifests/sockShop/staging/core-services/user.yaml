@@ -36,21 +36,6 @@ spec:
             - mountPath: /tmp
               name: tmp-volume
           resources:
-          livenessProbe:
-            httpGet:
-              path: /health
-              port: 8080
-            initialDelaySeconds: 120
-            periodSeconds: 10
-            successThreshold: 1
-            timeoutSeconds: 1
-          readinessProbe:
-            httpGet:
-              path: /health
-              port: 8080
-            periodSeconds: 10
-            successThreshold: 1
-            timeoutSeconds: 1
       volumes:
         - name: tmp-volume
           emptyDir:

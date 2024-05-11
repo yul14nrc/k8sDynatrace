@@ -39,7 +39,7 @@ else
 fi
 
 if [[ -f "Dynatrace-ActiveGate-Linux.sh" ]]; then
-    rm -f Dynatrace-ActiveGate-Linux.sh
+    sudo rm -f Dynatrace-ActiveGate-Linux.sh
     echo "Removed Dynatrace-ActiveGate-Linux.sh"
 fi
 
@@ -51,12 +51,12 @@ if [[ -f "Dynatrace-ActiveGate-Linux.sh" ]]; then
     echo "AG Install Starting..."
     if [ $GCP == true ]; then
         #sudo nohup /bin/sh /Dynatrace-ActiveGate-Linux.sh &
-        sudo /bin/sh ./Dynatrace-ActiveGate-Linux.sh
+        sudo /bin/bash ./Dynatrace-ActiveGate-Linux.sh
         echo "AG Install Complete"
     fi
     if [ $azure == true ]; then
         chmod +x ./Dynatrace-ActiveGate-Linux.sh
-        sudo /bin/sh ./Dynatrace-ActiveGate-Linux.sh
+        sudo /bin/bash ./Dynatrace-ActiveGate-Linux.sh
         echo "AG Install Complete"
     fi
 else

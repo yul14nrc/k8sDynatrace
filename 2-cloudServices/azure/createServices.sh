@@ -84,7 +84,6 @@ else
     AGTYPE=internal
 fi
 
-
 INFO=./servicesInfo.json
 
 rm $INFO 2>/dev/null
