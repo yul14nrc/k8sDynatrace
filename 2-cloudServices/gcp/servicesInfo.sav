@@ -1,0 +1,9 @@
+{
+    "k8sClusterName": "K8SCLUSTERNAME",
+    "zonek8sCl": "ZONEK8SCL",
+    "vmName": "VMNAME",
+    "zoneVM": "ZONEVM",
+    "agType": "AGTYPE",
+    "projectID": "PROJECTID",
+    "dynatraceDeploy": "DYNATRACEDEPLOY"
+}

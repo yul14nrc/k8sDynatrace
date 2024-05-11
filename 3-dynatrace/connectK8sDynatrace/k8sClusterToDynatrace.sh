@@ -26,7 +26,7 @@ ns=$(kubectl get namespace dynatrace --no-headers --output=go-template={{.metada
 if [ -z "${ns}" ]; then
     echo "Namespace dynatrace not found"
     echo ""
-    echo "Creating namespace dynatrace:"
+    echo "Creating namespace dynatrace..."
     echo ""
     kubectl create namespace dynatrace --kubeconfig ~/.kube/config
 else
@@ -36,9 +36,9 @@ else
 fi
 
 echo ""
-echo "Creating monitoring service account:"
+echo "Creating dynatrace-kubernetes-monitoring secret..."
 echo ""
-kubectl apply -f ./kubernetes-monitoring-service-account.yaml --kubeconfig ~/.kube/config
+kubectl apply -f ./token-secret.yaml -n dynatrace --kubeconfig ~/.kube/config
 echo ""
 
 case $DT_ENVIRONMENTID in
@@ -54,10 +54,10 @@ case $DT_ENVIRONMENTID in
 esac
 
 DYNATRACE_API_TOKEN="$DT_API_TOKEN"
-DYNATRACE_API_URL="$DYNATRACE_BASE_URL/api/config/v1/kubernetes/credentials"
+DYNATRACE_API_URL="$DYNATRACE_BASE_URL/api/v2/settings/objects"
 
 API_ENDPOINT_URL=$(kubectl config view --minify -o jsonpath='{.clusters[0].cluster.server}' --kubeconfig ~/.kube/config)
-BEARER_TOKEN=$(kubectl get secret $(kubectl get sa dynatrace-monitoring -o jsonpath='{.secrets[0].name}' -n dynatrace --kubeconfig ~/.kube/config) -o jsonpath='{.data.token}' -n dynatrace --kubeconfig ~/.kube/config | base64 --decode)
+BEARER_TOKEN=$(kubectl get secret dynatrace-kubernetes-monitoring -o jsonpath='{.data.token}' -n dynatrace --kubeconfig ~/.kube/config | base64 --decode)
 
 echo "================================================================="
 echo "Dynatrace Kubernetes configuration:"
@@ -69,29 +69,20 @@ echo "================================================================="
 echo ""
 POST_DATA=$(
     cat <<EOF
-    {
-        "label": "$CLUSTER_NAME",
-        "endpointUrl": "$API_ENDPOINT_URL",
-        "authToken": "$BEARER_TOKEN",
-        "eventsFieldSelectors": [
-            {
-                "label": "Node warning events",
-                "fieldSelector": "involvedObject.kind=Node,type=Warning",
-                "active": true
-            },
-            {
-                "label": "Sockshop prod warning events",
-                "fieldSelector": "involvedObject.namespace=sockshop-production,type=Warning",
-                "active": true
+    [
+        {
+            "schemaId": "builtin:cloud.kubernetes",
+            "value": {
+                "enabled": true,
+                "label": "$CLUSTER_NAME",
+                "clusterIdEnabled": false,
+                "endpointUrl": "$API_ENDPOINT_URL",
+                "authToken": "$BEARER_TOKEN",
+                "certificateCheckEnabled": false,
+                "hostnameVerificationEnabled": true
             }
-        ],
-        "active": true,
-        "eventsIntegrationEnabled": true,
-        "workloadIntegrationEnabled": true,
-        "certificateCheckEnabled": false,
-        "hostnameVerificationEnabled": true,
-        "davisEventsIntegrationEnabled": true
-    }
+        }
+    ]
 EOF
 )
 echo $POST_DATA
@@ -102,14 +93,12 @@ CONNECT_K8S_DYNATRACE=$(curl -X POST "$DYNATRACE_API_URL" -H "Content-type: appl
 
 echo $CONNECT_K8S_DYNATRACE
 
-DYNATRACE_K8S_ID=$(echo $CONNECT_K8S_DYNATRACE | jq -r '.id')
-DYNATRACE_K8S_NAME=$(echo $CONNECT_K8S_DYNATRACE | jq -r '.name')
+DYNATRACE_K8S_OBJECTID=$(echo $CONNECT_K8S_DYNATRACE | jq -r '.[0].objectId')
 
 INFO=$(
     cat <<EOF
     {
-        "dynatrace_k8s_id": "$DYNATRACE_K8S_ID",
-        "dynatrace_k8s_name": "$DYNATRACE_K8S_NAME"
+        "dynatrace_k8s_objectid": "$DYNATRACE_K8S_OBJECTID"
     }
 EOF
 )

@@ -35,15 +35,17 @@ else
   echo "Using namespace dynatrace"
 fi
 
-DT_OPERATOR_LAST_VERSION="v0.8.2"
+DT_OPERATOR_LAST_VERSION="v1.0.1"
 
 kubectl apply -f https://github.com/Dynatrace/dynatrace-operator/releases/download/$DT_OPERATOR_LAST_VERSION/kubernetes.yaml --kubeconfig ~/.kube/config
 
-#kubectl apply -f https://github.com/Dynatrace/dynatrace-operator/releases/latest/download/kubernetes.yaml --kubeconfig ~/.kube/config
-
 kubectl -n dynatrace wait pod --for=condition=ready --selector=app.kubernetes.io/name=dynatrace-operator,app.kubernetes.io/component=webhook --timeout=300s --kubeconfig ~/.kube/config
 
-kubectl -n dynatrace create secret generic dynakube --from-literal="apiToken="$DT_API_TOKEN --kubeconfig ~/.kube/config
+kubectl -n dynatrace create secret generic dynakube --from-literal="apiToken=$DT_API_TOKEN" --kubeconfig ~/.kube/config
+
+if [[ $CLOUD_PROVIDER == "gcp" ]]; then
+  sed -i '0,/# env: \[\]/s/# env: \[\]/env:\n      - name: ONEAGENT_ENABLE_VOLUME_STORAGE\n        value: "true"/g' cr.yaml crAG.yaml
+fi
 
 #curl -o cr.yaml https://raw.githubusercontent.com/Dynatrace/dynatrace-operator/master/config/samples/cr.yaml
 
