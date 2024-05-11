@@ -50,6 +50,7 @@ spec:
 
   # Configuration for OneAgent instances
   #
+  hostGroup: CLUSTER
   oneAgent:
     # Enables classic fullstack monitoring and changes its settings
     # Cannot be used in conjunction with cloud-native fullstack monitoring, application-only monitoring or host monitoring
@@ -105,7 +106,7 @@ spec:
       # If set to "false", this behavior is disabled
       # Defaults to "true"
       #
-      # autoUpdate: true
+      autoUpdate: false
 
       # Optional: Sets the DNS Policy for OneAgent pods
       # Defaults to "ClusterFirstWithHostNet"
@@ -133,7 +134,6 @@ spec:
       # For a list of the limitations for OneAgents in Docker, see https://www.dynatrace.com/support/help/shortlink/oneagent-docker#limitations
       #
       args:
-        - --set-host-group=CLUSTER
         - --set-app-log-content-access=true
 
   # Configuration for ActiveGate instances.
